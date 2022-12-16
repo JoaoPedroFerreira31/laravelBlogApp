@@ -1,10 +1,26 @@
 <x-app-layout>
     <div x-data="dashboardData()" class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div x-show="showLoginBanner" class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-2">
-            <div class="p-4 bg-white border-b border-gray-200">
-                You're logged in!
+        <section x-show="showLoginBanner" class="bg-green-400 flex my-2 flex-col w-full min-w-0 break-words rounded-md shadow-md">
+            <!--  Alert -->
+            <div class="px-4 py-3 mb-2 rounded-t border-b-1">
+                <div class="flex flex-wrap items-center">
+                    <div class="relative flex-1 flex-grow w-full max-w-full px-2">
+                        <h1 class="text-lg font-bold text-white dark:text-gray-400">
+                            You're logged in!
+                        </h1>
+                    </div>
+                    <div class="flex items-center ml-3 h-7">
+                        <button @click.prevent="showLoginBanner = false" class="text-white rounded-md hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-white">
+                            <span class="sr-only">@lang('close')</span>
+                            <!-- Heroicon name: outline/x -->
+                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-2 w-full">
             <form action="">
                 <div class="p-6 bg-white border-b border-gray-200">
