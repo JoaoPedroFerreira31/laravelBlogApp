@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//TODO: Add authentication routes
+
 Route::name('api.')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('posts', PostController::class);
 });

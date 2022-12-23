@@ -12,22 +12,16 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/awesome-notifications/3.1.1/modern.min.js" integrity="sha512-PjlyZT7z5pyhvudKh6rGlxvHKGow4MEDGVehJtjZTjrVvXlpuMt2wmna/PnUnNSWYsgqXuzM86tu9v4+rNHsSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased" x-data="dataApp()" x-cloak>
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            {{-- <header class="bg-white shadow">
-                <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header> --}}
 
             <!-- Page Content -->
             <main>
@@ -36,3 +30,17 @@
         </div>
     </body>
 </html>
+
+<script type="text/javascript">
+    let user_id = "{{ Auth::user()->id }}";
+    function dataApp() {
+        return {
+            init(){
+
+            },
+            navigateTo(link) {
+                window.location.assign(link);
+            },
+        }
+    };
+</script>
