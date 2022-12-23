@@ -34,28 +34,57 @@
                         <div class="w-8/12">
                             <h1 x-text="post.title"></h1>
                         </div>
-                        <div class="w-4/12 text-right whitespace-nowrap flex-col">
-                            <p class="text-sm text-gray-500" x-text="post.authorName"></p>
-                            <span class="text-gray-500 text-xs" x-text="post.created_at"></span>
+                        <div class="w-4/12 text-right flex-col">
+                            <div class="inline-flex">
+                                <p class="text-sm text-gray-500" x-text="post.authorName"></p>
+                                <x-dropdown align="rigth" width="48">
+                                    <x-slot name="trigger">
+                                        <button x-tooltip="ttp_tools" type="button" class="inline-flex items-center ml-1 text-sm font-light text-gray-500 hover:border-gray-300 focus:border-gray-300 hover:bg-gray-200">
+                                            <x-fas-ellipsis-v class="w-4 h-4"/>
+                                        </button>
+                                    </x-slot>
+
+                                    <x-slot name="content">
+                                        <!-- Dropdown menu -->
+                                        <ul class="py-1 text-gray-800" aria-labelledby="dropdownButton">
+                                            <li>
+                                                <span @click.prevent="editPost(`${post.id}`)" class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                                    Edit post
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span @click.prevent="deletePost(`${post.id}`)" class="block px-4 py-2 text-sm text-red-600 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                                    Delete post
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </x-slot>
+                                </x-dropdown>
+                            </div>
+                            <span class="text-gray-500 text-xs whitespace-nowrap" x-text="post.created_at"></span>
                         </div>
                     </div>
                     <div class="mt-2">
                         <p class="text-gray-500 text-sm" x-text="post.content"></p>
+                    </div>
+                    <div class="mt-2 flex w-full justify-end">
+                        <p x-tooltip="'Editado em: ' + post.updated_at" x-show="post.created_at !== post.updated_at" class="cursor-pointer text-gray-500 text-xs">*Editado</p>
                     </div>
                 </div>
             </div>
         </template>
 
         <x-modals.create-post/>
+        <x-modals.delete-pop-up/>
     </div>
 </x-app-layout>
 <script>
     function dashboardData() {
         return {
+            ttp_tools: 'Options',
             isCreatePostModalOpen: false,
             isPostEditing: false,
             editPostID: null,
-            open: false,
             postForm: {
                 title: null,
                 content: null,
@@ -86,6 +115,39 @@
                 }).catch((error) => {
                     console.log(error);
                 });
+            },
+            editPost(record_id){
+                console.log("edit",record_id);
+
+                this.isPostEditing = true;
+                this.editPostID = record_id;
+                const post = this.posts.find(post => post.id === record_id);
+
+                this.postForm.title = post.title;
+                this.postForm.content = post.content;
+
+                this.isCreatePostModalOpen = true;
+            },
+            isDeletePopUpOpen: false,
+            isPostDeleting: false,
+            postToDelete: null,
+            deletePost(record_id){
+                this.isPostDeleting = true;
+                this.postToDelete = record_id;
+                this.isDeletePopUpOpen = true;
+            },
+            deleteData() {
+                if (this.isPostDeleting && this.postToDelete !== null) {
+                    axios.delete('/api/posts/' + this.postToDelete)
+                        .then(response => {
+                            notyf.success('Deleted successfully!');
+                            this.postToDelete = null;
+                            this.isPostDeleting = false;
+                            this.isDeletePopUpOpen = false;
+                            this.fetchData();
+                        })
+                        .catch((error) => console.log(error.message));
+                }
             },
         }
     }

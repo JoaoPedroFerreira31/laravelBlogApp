@@ -36,46 +36,32 @@
                 <div class="p-6 sm:flex sm:items-start">
                     <div class="px-1 divide-y divide-gray-200">
                         <div class="space-y-3">
-                            <div class="flex flex-col">
-                                <div class="w-full w-12/12">
+                            <div class="flex flex-wrap">
+                                <div class="px-4 my-2 w-full lg:w-12/12">
                                     <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Post title</label>
-                                    <input type="text" id="title" x-model="postForm.title" class="block w-full p-2 mb-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Insert title..." required>
+                                    <input type="text" id="title" x-model="postForm.title" class="block w-full py-2 px-5 mb-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Insert title..." required>
                                 </div>
 
-                                <div class="w-full w-12/12">
+                                <div class="px-4 my-2 w-full lg:w-12/12">
                                     <label for="content" class="block my-2 text-sm font-medium text-gray-900 dark:text-white">Post content</label>
-                                    <textarea id="content" x-model="postForm.content" rows="4" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your post..." required></textarea>
+                                    <textarea id="content" x-model="postForm.content" rows="4" class="block w-full px-8 py-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your post..." required></textarea>
                                 </div>
-
-                                {{-- <x-inputs.group class="w-full">
-                                    <x-inputs.text x-model="eventForm.title"
-                                        name="title"
-                                        label="title"
-                                        value="{{ old('title', '') }}"
-                                        maxlength="255"
-                                        placeholder="Title"
-                                        required
-                                    ></x-inputs.text>
-                                </x-inputs.group> --}}
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- buttons -->
-                <div class="mt-2">
-                    <div class="flex justify-end px-4 py-4 shrink-0 gap-x-2">
-                        <button @click.prevent="isCreatePostModalOpen = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-medexis-blue">
-                            @lang('cancel')
-                        </button>
-                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-700 border border-blue-300 rounded-md shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-medexis-blue">
-                            Submit
-                        </button>
-                        {{-- <button type="submit" class="w-full px-3 py-2 mt-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button> --}}
-                        {{-- <x-soccer.partials.save-button/> --}}
-                    </div>
+                <div class="flex justify-end px-4 py-2 shrink-0 gap-x-2">
+                    <button @click.prevent="isCreatePostModalOpen = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-medexis-blue">
+                        @lang('cancel')
+                    </button>
+                    <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-700 border border-blue-300 rounded-md shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        Publish post
+                    </button>
                 </div>
             </form>
+
         </div>
     </div>
 </div>
@@ -112,7 +98,7 @@
                         data: this.postForm,
                     }).then((response) => {
                         this.isCreatePostModalOpen = false;
-                        notyf.success(this.isPostEditing ? 'updated' : 'added');
+                        notyf.success(this.isPostEditing ? 'Updated successfully!' : 'Added successfully!');
                         this.isPostEditing = false;
                         this.isSaving = false;
                         this.fetchData();

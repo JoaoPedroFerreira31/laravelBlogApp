@@ -8,6 +8,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdatePostRequest;
 
 class PostController extends Controller
 {
@@ -39,6 +40,34 @@ class PostController extends Controller
         $post = Post::create($validated);
 
         return new PostResource($post);
+    }
+
+    /**
+     * @param \App\Http\Requests\UpdatePostRequest $request
+     * @param \App\Models\Post $post
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdatePostRequest $request, Post $post)
+    {
+        // $this->authorize('update', $post);
+
+        $validated = $request->validated();
+
+        $post->update($validated);
+
+        return new PostResource($post);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Post $post
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, Post $post)
+    {
+        $post->delete();
+
+        return response()->noContent();
     }
 
     // /**
@@ -78,23 +107,6 @@ class PostController extends Controller
     //     return new GameResource($game);
     // }
 
-    // /**
-    //  * @param \App\Http\Requests\GameUpdateRequest $request
-    //  * @param \App\Models\Game $game
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(GameUpdateRequest $request, Game $game)
-    // {
-    //     $this->authorize('update', $game);
-
-    //     $validated = $request->validated();
-
-    //     $game->update($validated);
-    //     SyncGameEvent::dispatchAfterResponse($game);
-
-    //     return new GameResource($game);
-    // }
-
     // public function update_game_formation(Request $request ,Game $game) {
 
     //     $this->authorize('update', $game);
@@ -112,20 +124,6 @@ class PostController extends Controller
     //     ]);
 
     //     return new GameResource($game);
-    // }
-
-    // /**
-    //  * @param \Illuminate\Http\Request $request
-    //  * @param \App\Models\Game $game
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy(Request $request, Game $game)
-    // {
-    //     $this->authorize('delete', $game);
-
-    //     $game->delete();
-
-    //     return response()->noContent();
     // }
 
     // public function import(Request $request)
