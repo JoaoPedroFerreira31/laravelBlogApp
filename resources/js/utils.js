@@ -30,7 +30,7 @@ let globalOptions =  {
 }
 
 // Initialize instance of AWN
-let notifier = new AWN(globalOptions)
+let notifier = new AWN(globalOptions);
 window.notyf = notifier;
 
 window.localForage = localForage;

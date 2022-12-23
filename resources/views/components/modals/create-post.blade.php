@@ -1,4 +1,4 @@
-<div  x-data="dataCreatePost()" x-show="isCreatePostModalOpen" class="fixed inset-0 z-50 overflow-y-auto" style="display:none;">
+<div x-data="dataCreatePost()" x-show="isCreatePostModalOpen" class="fixed inset-0 z-50 overflow-y-auto" style="display:none;">
     <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
 
         <div x-transition class="fixed inset-0 transition-opacity" aria-hidden="true">
@@ -86,13 +86,12 @@
             haveErrors: false,
             errors: [],
             init() {
-                //this.gamePitches = this.pitches;
 
                 this.$watch('isCreatePostModalOpen', (value) => {
                     if (!this.isCreatePostModalOpen) {
                         this.clearPostForm();
                     } else {
-                        // notyf.success(this.isPostEditing ? 'updated' : 'added');
+
                     }
                 })
             },
@@ -124,7 +123,7 @@
                         this.errors = error.response.data.errors;
                     });
                 } else {
-                    // saveOfflineStorage((this.isOpponentsEditing ? 'edit' : 'create'),this.editGameID, 'games',this.gameForm);
+                    saveOfflineStorage((this.isPostEditing ? 'edit' : 'create'), this.editPostID, 'posts', this.postForm);
                 }
             },
         }

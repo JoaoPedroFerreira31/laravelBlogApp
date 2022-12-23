@@ -10,16 +10,25 @@ class Post extends Model
 {
     use HasFactory, UuidTrait;
 
-     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $appends = ['authorName'];
+
+    /**
+    * The attributes that are mass assignable.
+    *
+    * @var array<int, string>
+    */
     protected $fillable = [
         'title',
         'content',
         'author',
     ];
+
+    public function getAuthorNameAttribute() {
+
+        $user = User::findOrFail($this->author);
+
+        return $user->name;
+    }
 
     public function author() {
         $this->belongsTo(User::class);

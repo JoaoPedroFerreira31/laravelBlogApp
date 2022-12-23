@@ -19,7 +19,7 @@
             <div class="w-full max-w-lg mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg p-6">
                 <div class="w-full inline-flex justify-between">
                     <h1 class="align-center text-lg text-gray-900">Posts</h1>
-                    <div class="flex-col gap-y-1">
+                    <div class="flex-col gap-y-1 text-right">
                         <div class="text-gray-500 text-sm">You have<span class="mx-1" x-text="posts.length">0</span>post</div>
                         <span @click.prevent="isCreatePostModalOpen = true" class="text-left text-xs text-blue-700 hover:text-blue-500 cursor-pointer">Create new post</span>
                     </div>
@@ -30,8 +30,16 @@
         <template x-for="post in posts" :key="post.id">
             <div class="flex justify-center w-full">
                 <div class="w-full max-w-lg mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg p-6">
-                    <div class="w-full flex-col gap-y-2">
-                        <h1 x-text="post.title"></h1>
+                    <div class="w-full inline-flex justify-between">
+                        <div class="w-8/12">
+                            <h1 x-text="post.title"></h1>
+                        </div>
+                        <div class="w-4/12 text-right whitespace-nowrap flex-col">
+                            <p class="text-sm text-gray-500" x-text="post.authorName"></p>
+                            <span class="text-gray-500 text-xs" x-text="post.created_at"></span>
+                        </div>
+                    </div>
+                    <div class="mt-2">
                         <p class="text-gray-500 text-sm" x-text="post.content"></p>
                     </div>
                 </div>
@@ -66,6 +74,7 @@
                 }
 
                 console.log(user_id);
+
                 this.fetchData();
             },
             fetchData() {
@@ -78,14 +87,6 @@
                     console.log(error);
                 });
             },
-            // savePostData() {
-            //     axios.post('api/posts', this.postForm)
-            //     .then((response) => {
-            //         this.fetchData();
-            //     }).catch((error) => {
-            //         console.log(error);
-            //     });
-            // }
         }
     }
 </script>
