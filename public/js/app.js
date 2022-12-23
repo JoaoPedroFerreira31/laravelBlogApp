@@ -5111,7 +5111,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// Set global options
+// Set awesome notifications global options
 var globalOptions = {
   position: "top-right",
   labels: {

@@ -671,6 +671,12 @@ select {
 .-ml-px {
   margin-left: -1px;
 }
+.mr-1\.5 {
+  margin-right: 0.375rem;
+}
+.mr-1 {
+  margin-right: 0.25rem;
+}
 .ml-1 {
   margin-left: 0.25rem;
 }
@@ -790,6 +796,9 @@ select {
 }
 .flex-1 {
   flex: 1 1 0%;
+}
+.flex-shrink-0 {
+  flex-shrink: 0;
 }
 .shrink-0 {
   flex-shrink: 0;

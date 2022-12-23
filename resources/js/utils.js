@@ -1,7 +1,7 @@
 import localForage from "localforage";
 import AWN from "awesome-notifications";
 
-// Set global options
+// Set awesome notifications global options
 let globalOptions =  {
     position: "top-right",
     labels: {
