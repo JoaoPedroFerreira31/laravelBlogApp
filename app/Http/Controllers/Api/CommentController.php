@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Post;
 use \Illuminate\Http\Request;
-use App\Http\Requests\StorePostRequest;
-use App\Http\Resources\PostCollection;
-use App\Http\Resources\PostResource;
+use App\Http\Requests\StoreCommentRequest;
+use App\Http\Resources\CommentCollection;
+use App\Http\Resources\CommentResource;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdatePostRequest;
+use App\Http\Requests\UpdateCommentRequest;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 
-class PostController extends Controller
+class CommentController extends Controller
 {
 
     public function __construct()
@@ -25,63 +25,63 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::latest()->get();
-        $posts->load('comments');
+        $comments = Comment::latest()->get();
+        $comments->load('user');
 
-        return new PostCollection($posts);
+        return new CommentCollection($comments);
     }
 
     /**
-     * @param \App\Http\Requests\StorePostRequest $request
+     * @param \App\Http\Requests\StoreCommentRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePostRequest $request)
+    public function store(StoreCommentRequest $request)
     {
         $validated = $request->validated();
 
-        $post = Post::create($validated);
+        $comment = Comment::create($validated);
 
-        return new PostResource($post);
+        return new CommentResource($comment);
     }
 
-    /**
-     * @param \App\Http\Requests\UpdatePostRequest $request
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdatePostRequest $request, Post $post)
-    {
+    // /**
+    //  * @param \App\Http\Requests\UpdatePostRequest $request
+    //  * @param \App\Models\Post $post
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function update(UpdatePostRequest $request, Post $post)
+    // {
 
-        if($post->author === Auth::user()->id) {
+    //     if($post->author === Auth::user()->id) {
 
-            $validated = $request->validated();
+    //         $validated = $request->validated();
 
-            $post->update($validated);
+    //         $post->update($validated);
 
-            return new PostResource($post);
+    //         return new PostResource($post);
 
-        } else {
-            return abort(403, 'You are not allowed to edit this post');
-        }
-    }
+    //     } else {
+    //         return abort(403, 'You are not allowed to edit this post');
+    //     }
+    // }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, Post $post)
-    {
-        if($post->author === Auth::user()->id) {
+    // /**
+    //  * @param \Illuminate\Http\Request $request
+    //  * @param \App\Models\Post $post
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy(Request $request, Post $post)
+    // {
+    //     if($post->author === Auth::user()->id) {
 
-            $post->delete();
+    //         $post->delete();
 
-            return response()->noContent();
+    //         return response()->noContent();
 
-        } else {
-            return abort(403, 'You are not allowed to delete this post');
-        }
-    }
+    //     } else {
+    //         return abort(403, 'You are not allowed to delete this post');
+    //     }
+    // }
 
     // /**
     //  * @param \Illuminate\Http\Request $request

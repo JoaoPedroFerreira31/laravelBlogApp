@@ -34,6 +34,7 @@
 
 <script type="text/javascript">
     let user_id = "{{ Auth::user()->id }}";
+    let username = "{{ Auth::user()->name }}";
 
     function dataApp() {
         return {

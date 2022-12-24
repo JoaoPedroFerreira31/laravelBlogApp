@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Comment;
 use App\Traits\UuidTrait;
+use App\Models\User;
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Post extends Model
+class Comment extends Model
 {
     use HasFactory, UuidTrait, SoftDeletes;
-
-    protected $appends = ['authorName'];
 
     /**
     * The attributes that are mass assignable.
@@ -21,28 +19,20 @@ class Post extends Model
     * @var array<int, string>
     */
     protected $fillable = [
-        'title',
-        'content',
-        'author',
+        'post_id',
+        'user_id',
+        'comment',
         'updated_at',
         'created_at',
     ];
 
-    public function getAuthorNameAttribute()
-    {
-
-        $user = User::find($this->author);
-
-        return $user->name;
-    }
-
-    public function author()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function comments()
+    public function post()
     {
-        return $this->hasMany(Comment::class);
+        return $this->belongsTo(Post::class);
     }
 }
