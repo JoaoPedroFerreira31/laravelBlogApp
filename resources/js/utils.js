@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import localForage from "localforage";
 import AWN from "awesome-notifications";
 
@@ -57,3 +58,8 @@ window.saveOfflineStorage = function(type, record, model, data){
     }
     localStorage.setItem('to_sync_'+entry.time, JSON.stringify(entry));
 };
+
+// dd/mm/yyyy
+window.date_short = function(date) {
+    return DateTime.fromISO(date).toLocaleString({ month: 'numeric', year: 'numeric', day: 'numeric' });
+}
