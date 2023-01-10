@@ -1,4 +1,4 @@
-<nav x-data="{open: false}" class="bg-white border-b border-gray-100">
+<nav x-data="dataNav()" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -12,8 +12,11 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    <x-nav-link x-tooltip="ttp_dashboard" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        <x-fas-home class="w-6 h-6 text-gray-500 hover:text-gray-300"/>
+                    </x-nav-link>
+                    <x-nav-link x-tooltip="ttp_perfil" :href="route('perfil')" :active="request()->routeIs('perfil')">
+
                     </x-nav-link>
                 </div>
             </div>
@@ -34,10 +37,15 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-dropdown-link :href="route('perfil')">
+                            <span class="inline-flex items-center">
+                                <x-fas-user-alt class="w-3 h-3 mr-1 text-gray-500 hover:text-gray-300"/>
+                                <span>{{ __('Perfil') }}</span>
+                            </span>
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
@@ -90,3 +98,15 @@
         </div>
     </div>
 </nav>
+<script>
+    function dataNav() {
+        return {
+            ttp_dashboard: 'Dashboard',
+            ttp_perfil: 'Perfil',
+            open: false,
+            init() {
+
+            },
+        }
+    }
+</script>
