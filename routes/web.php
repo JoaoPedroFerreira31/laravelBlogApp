@@ -21,9 +21,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::get('/perfil', function () {
-        // return view('perfil');
-    })->name('perfil');
+    Route::get('/profile', function () {
+        return view('profile');
+    })->name('profile');
 });
 
 
