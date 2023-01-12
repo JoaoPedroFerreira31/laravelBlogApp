@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,15 +16,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('dashboard');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::get('/profile', function () {
-        return view('profile');
+    Route::get('/profile/{user}', function (Request $request) {
+
+        $user = User::find($request['user']);
+        $user->load('posts', 'posts.comments', 'posts.comments.user');
+
+        return view('profile', ['user' => $user]);
     })->name('profile');
 });
 

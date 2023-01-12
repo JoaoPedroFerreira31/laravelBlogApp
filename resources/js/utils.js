@@ -63,3 +63,8 @@ window.saveOfflineStorage = function(type, record, model, data){
 window.date_short = function(date) {
     return DateTime.fromISO(date).toLocaleString({ month: 'numeric', year: 'numeric', day: 'numeric' });
 }
+
+// X time ago
+window.date_readable = function(date) {
+    return DateTime.fromISO(date).toRelative();
+}

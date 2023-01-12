@@ -15,7 +15,7 @@
                     <x-nav-link x-tooltip="ttp_dashboard" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         <x-fas-home class="w-6 h-6 text-gray-500 hover:text-gray-300"/>
                     </x-nav-link>
-                    <x-nav-link x-tooltip="ttp_profile" :href="route('profile')" :active="request()->routeIs('profile')">
+                    <x-nav-link x-tooltip="ttp_profile" :href="route('profile', Auth::user())" :active="request()->routeIs('profile')">
                         <x-fas-user-alt class="w-5 h-5 text-gray-500 hover:text-gray-300"/>
                     </x-nav-link>
                 </div>
@@ -37,7 +37,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile')">
+                        <x-dropdown-link :href="route('profile', Auth::user())">
                             <span class="inline-flex items-center">
                                 <x-fas-user-alt class="w-3 h-3 mr-1 text-gray-500 hover:text-gray-300"/>
                                 <span>{{ __('Profile') }}</span>

@@ -4,7 +4,7 @@
         <div class="flex justify-center w-full">
             <div class="w-full max-w-lg p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="inline-flex justify-between w-full">
-                    <h1 class="text-sm text-gray-900 align-center">Welcome <span class="" x-text="username"></span></h1>
+                    <h1 class="text-lg font-bold text-gray-900 align-center">Welcome <span class="" x-text="username"></span></h1>
                     <div class="flex-col text-right gap-y-1">
                         <div class="text-sm text-gray-500">You have<span class="mx-1" x-text="userPosts.length">0</span>post</div>
                         <span @click.prevent="isCrudPostModalOpen = true" class="text-xs text-left text-blue-700 cursor-pointer hover:text-blue-500">Create new post</span>
@@ -31,7 +31,7 @@
                         </div>
                         <div class="flex-col w-4/12 text-right">
                             <div class="inline-flex">
-                                <p class="text-sm text-gray-500" x-text="post.authorName"></p>
+                                <a type="button" @click="navigateTo(`/profile/`+post.author)" class="text-sm text-gray-500 hover:cursor-pointer hover:text-gray-300" x-text="post.authorName"></a>
                                 <x-dropdown align="rigth" width="48">
                                     <x-slot name="trigger">
                                         <button x-show="post.author === user_id" x-tooltip="ttp_tools" type="button" class="inline-flex items-center ml-1 text-sm font-light text-gray-500 hover:border-gray-300 focus:border-gray-300 hover:bg-gray-200">
@@ -63,7 +63,7 @@
                     </div>
                     <div :class="post.created_at !== post.updated_at ? 'flex justify-between w-full mt-2' : 'flex justify-end w-full mt-2'">
                         <span class="text-xs text-gray-500 whitespace-nowrap" x-text="'Publicado em: ' + date_short(post.created_at)"></span>
-                        <span x-tooltip="'Editado em: ' + date_short(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*Editado</span>
+                        <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*Editado</span>
                     </div>
 
                     <hr class="mt-1 text-gray-500 border-1">
@@ -73,10 +73,10 @@
                             <div class="flex items-center px-3 py-1 rounded-lg bg-gray-50 dark:bg-gray-700">
                                 <div class="inline-flex justify-between w-full text-xs">
                                     <div class="inline-flex">
-                                        <span class="mr-1 font-bold " x-text="comment?.user?.name"></span>
+                                        <span class="mr-2 font-bold" x-text="comment.user.name"></span>
                                         <span x-text="comment?.comment"></span>
                                     </div>
-                                    <span class="text-xs" x-text="date_short(comment?.created_at)"></span>
+                                    <span x-text="date_readable(comment?.created_at)"></span>
                                 </div>
                             </div>
                         </div>

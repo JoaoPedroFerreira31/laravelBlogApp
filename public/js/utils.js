@@ -10897,6 +10897,11 @@ window.date_short = function (date) {
     day: 'numeric'
   });
 };
+
+// X time ago
+window.date_readable = function (date) {
+  return luxon__WEBPACK_IMPORTED_MODULE_0__.DateTime.fromISO(date).toRelative();
+};
 })();
 
 /******/ })()
