@@ -10,11 +10,20 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Overtrue\LaravelFollow\Followable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, UuidTrait, HasRoles, SoftDeletes;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use UuidTrait;
+    use HasRoles;
+    use SoftDeletes;
+    use Followable;
+
+    protected $appends = ['followersCount'];
 
     /**
      * The attributes that are mass assignable.
@@ -46,6 +55,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     *  Attributes
+     */
+    public function getFollowersCountAttribute() {
+        return $this->followers()->count();
+    }
+
+
+    /**
+     * Relationships.
+     */
     public function posts()
     {
         return $this->hasMany(Post::class, 'author');
