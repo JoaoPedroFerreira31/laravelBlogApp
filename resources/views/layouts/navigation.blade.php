@@ -39,17 +39,21 @@
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile', Auth::user())">
                             <span class="inline-flex items-center">
-                                <x-fas-user-alt class="w-3 h-3 mr-1 text-gray-500 hover:text-gray-300"/>
+                                <x-fas-user-alt class="w-3 h-3 mr-3 text-gray-500 hover:text-gray-300"/>
                                 <span>{{ __('Profile') }}</span>
                             </span>
                         </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
+
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                <span class="inline-flex items-center">
+                                    <x-fas-sign-out-alt class="w-4 h-4 mr-3 text-gray-500 hover:text-gray-300"/>
+                                    <span>{{ __('Log Out') }}</span>
+                                </span>
                             </x-dropdown-link>
                         </form>
                     </x-slot>

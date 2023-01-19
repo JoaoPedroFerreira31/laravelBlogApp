@@ -24,7 +24,7 @@
                     <template x-for="post in user.posts" :key="post.id">
 
                         <div class="flex justify-center w-full">
-                            <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                            <div class="w-full px-6 py-4 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                                 <div class="inline-flex justify-between w-full">
                                     <div class="w-8/12">
                                         <h1 class="font-bold text-gray-900" x-text="post.title"></h1>
@@ -65,10 +65,19 @@
                                     <span class="text-xs text-gray-500 whitespace-nowrap" x-text="'Publicado em: ' + date_short(post.created_at)"></span>
                                     <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*Editado</span>
                                 </div>
-
                                 <hr class="mt-1 text-gray-500 border-1">
 
-                                <template x-for="comment in post.comments" :key="comment.id">
+
+                                <template x-if="post.comments.length === 0">
+                                    <div class="w-full mt-2">
+                                        <div class="flex items-center px-3 py-1 rounded-lg dark:bg-gray-700">
+                                            <div class="inline-flex justify-center w-full text-xs">
+                                                <span class="font-semibold text-gray-500">No comments found</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template x-if="post.comments.length > 0" x-for="comment in post.comments" :key="comment.id">
                                     <div class="w-full mt-2">
                                         <div class="flex items-center px-3 py-1 rounded-lg bg-gray-50 dark:bg-gray-700">
                                             <div class="inline-flex justify-between w-full text-xs">

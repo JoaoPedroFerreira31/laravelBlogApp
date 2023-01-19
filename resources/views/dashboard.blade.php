@@ -21,10 +21,11 @@
             </div>
         </div>
 
+        {{-- Posts --}}
         <template x-for="post in filteredPosts" :key="post.id">
 
             <div class="flex justify-center w-full">
-                <div class="w-full max-w-lg p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div class="w-full max-w-lg px-6 py-4 mt-4 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="inline-flex justify-between w-full">
                         <div class="w-8/12">
                             <h1 class="font-bold text-gray-900" x-text="post.title"></h1>

@@ -35,6 +35,10 @@
                 <div class="p-6 sm:flex sm:items-start">
                     <div class="px-1 divide-y divide-gray-200">
                         <div class="space-y-3">
+
+                            <!-- Panel validation errors -->
+                            <x-partials.crud-errors/>
+
                             <div class="flex flex-wrap">
                                 <div class="w-full px-4 my-2 lg:w-12/12">
                                     <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Post title</label>
