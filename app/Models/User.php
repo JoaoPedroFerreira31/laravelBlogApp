@@ -23,8 +23,6 @@ class User extends Authenticatable
     use SoftDeletes;
     use Followable;
 
-    protected $appends = ['followersCount'];
-
     /**
      * The attributes that are mass assignable.
      *
@@ -60,6 +58,14 @@ class User extends Authenticatable
      */
     public function getFollowersCountAttribute() {
         return $this->followers()->count();
+    }
+
+    public function getFollowingsCountAttribute() {
+        return $this->followings()->count();
+    }
+
+    public function getPendingRequestsCountAttribute() {
+        return $this->pendingRequests()->count();
     }
 
 

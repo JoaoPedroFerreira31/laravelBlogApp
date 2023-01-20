@@ -8,6 +8,23 @@
                             <img class="w-20 h-20 rounded-full" src="{{ asset('images\placeholder.png') }}" alt="">
                         </div>
                         <h1 class="font-bold text-center text-gray-900" x-text="user_id === user.id ? 'Welcome '+username : user.name"></h1>
+                        {{-- Follow btn --}}
+                        <template x-if="user_id !== user.id">
+                            <div class="flex justify-center w-full">
+                                <button type="button" class="inline-flex items-center px-6 py-1.5 mt-2 text-xs font-semibold tracking-widest text-black uppercase transition duration-150 ease-in-out border-2 border-gray-200 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-300 focus:ring disabled:opacity-25" >
+                                    @if(Auth::user()->hasRequestedToFollow($user))
+                                        {{ __('Pending') }}
+                                    @else
+                                        @if(!Auth::user()->isFollowing($user))
+                                            {{ __('Follow') }}
+                                        @else
+                                            {{ __('Unfollow') }}
+                                        @endif
+                                    @endif
+                                </button>
+                            </div>
+
+                        </template>
                     </div>
                 </div>
                 <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
@@ -165,6 +182,13 @@
                         this.comments = value;
                     })
                     .catch((err) => { console.log(err) });
+
+                    //User
+                    localForage.getItem('user-'+this.user.id)
+                    .then((value) => {
+                        this.user = value;
+                    })
+                    .catch((err) => { console.log(err) });
                 }
 
                 console.log(user_id);
@@ -172,6 +196,7 @@
                 this.fetchData();
             },
             fetchData() {
+
                 axios.get('/api/posts/')
                 .then((response) => {
                     console.log('posts', response.data.data);
@@ -183,7 +208,14 @@
                     console.log(error);
                 });
 
-
+                axios.get('/api/users/'+this.user.id)
+                .then((response) => {
+                    console.log('user', response.data.data);
+                    this.user = response.data.data;
+                    saveStorage('user-'+this.user.id, response.data.data);
+                }).catch((error) => {
+                    console.log(error);
+                });
 
                 axios.get('/api/comments/')
                 .then((response) => {
