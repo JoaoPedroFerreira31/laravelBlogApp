@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,9 +35,11 @@ Route::middleware('auth:sanctum')->group(function () {
             'followers',
             'followings',
             'pendingRequests'
-        )->loadCount('followers', 'followings', 'pendingRequests');
+        )->loadCount('followers', 'followings', 'pendingRequests', 'posts');
 
-        return view('profile', ['user' => $user]);
+        return view('profile', [
+            'user' => $user,
+        ]);
 
     })->name('profile');
 

@@ -43,11 +43,46 @@ class UserController extends Controller
             'followers',
             'followings',
             'pendingRequests'
-        )->loadCount('followers', 'followings', 'pendingRequests');
+        )->loadCount('followers', 'followings', 'pendingRequests', 'posts');
 
         return new UserResource($user);
     }
 
+    /**
+    * @param \Illuminate\Http\Request $request
+    * @param \App\Models\User $user
+    * @return \Illuminate\Http\Response
+    */
+    public function toggleFollowUser(Request $request, User $user)
+    {
+        Auth::user()->toggleFollow($user);
+
+        return response()->noContent();
+    }
+
+    /**
+    * @param \Illuminate\Http\Request $request
+    * @param \App\Models\User $user
+    * @return \Illuminate\Http\Response
+    */
+    public function AcceptPendingRequest(Request $request, User $user)
+    {
+        Auth::user()->acceptFollowRequestFrom($user);
+
+        return new UserResource(Auth::user());
+    }
+
+    /**
+    * @param \Illuminate\Http\Request $request
+    * @param \App\Models\User $user
+    * @return \Illuminate\Http\Response
+    */
+    public function RejectPendingRequest(Request $request, User $user)
+    {
+        Auth::user()->rejectFollowRequestFrom($user);
+
+        return new UserResource(Auth::user());
+    }
     // /**
     //  * @param \App\Http\Requests\StoreUserRequest $request
     //  * @return \Illuminate\Http\Response
