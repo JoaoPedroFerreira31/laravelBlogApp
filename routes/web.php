@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
         $user->load(
             'posts',
             'posts.comments',
+            'posts.comments.user',
             'followers',
             'followings',
             'pendingRequests'

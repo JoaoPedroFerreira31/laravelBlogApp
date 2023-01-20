@@ -40,6 +40,7 @@ class UserController extends Controller
         $user->load(
             'posts',
             'posts.comments',
+            'posts.comments.user',
             'followers',
             'followings',
             'pendingRequests'
@@ -80,6 +81,18 @@ class UserController extends Controller
     public function RejectPendingRequest(Request $request, User $user)
     {
         Auth::user()->rejectFollowRequestFrom($user);
+
+        return new UserResource(Auth::user());
+    }
+
+    /**
+    * @param \Illuminate\Http\Request $request
+    * @param \App\Models\User $user
+    * @return \Illuminate\Http\Response
+    */
+    public function removeFromFollowers(Request $request, User $user)
+    {
+        Auth::user()->removeFollower($user);
 
         return new UserResource(Auth::user());
     }
