@@ -7,7 +7,7 @@
                     <h1 class="text-lg font-bold text-gray-900 align-center">Welcome <span class="" x-text="username"></span></h1>
                     <div class="flex-col text-right gap-y-1">
                         <div class="text-sm text-gray-500">You have<span class="mx-1" x-text="userPosts.length">0</span>post</div>
-                        <button type="button" @click.prevent="isCrudPostModalOpen = true" class="mt-2 px-4 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-300 ">Create new post</button>
+                        <button type="button" @click.prevent="isCrudPostModalOpen = true" class="mt-2 px-4 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-300 hover:border-blue-300">Create new post</button>
                     </div>
                 </div>
             </div>

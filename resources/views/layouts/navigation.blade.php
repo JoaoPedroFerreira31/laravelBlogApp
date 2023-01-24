@@ -1,4 +1,4 @@
-<nav x-data="dataNav()" class="bg-white border-b border-gray-100">
+<nav x-data="dataNav()" class="bg-blue-400 border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -6,17 +6,17 @@
                 <!-- Logo -->
                 <div class="flex items-center shrink-0">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block w-auto h-10 text-gray-600 fill-current" />
+                        <x-application-logo class="block w-auto h-10 text-white fill-current" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link x-tooltip="ttp_dashboard" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        <x-fas-home class="w-6 h-6 text-gray-500 hover:text-gray-300"/>
+                    <x-nav-link x-tooltip="ttp_dashboard" :href="route('dashboard')" class="hover:opacity-80" :active="request()->routeIs('dashboard')">
+                        <x-fas-home class="w-6 h-6 text-white "/>
                     </x-nav-link>
                     <x-nav-link x-tooltip="ttp_profile" :href="route('profile', Auth::user())" :active="request()->routeIs('profile')">
-                        <x-fas-user-alt class="w-5 h-5 text-gray-500 hover:text-gray-300"/>
+                        <x-fas-user-alt class="w-5 h-5 text-white "/>
                     </x-nav-link>
                 </div>
             </div>
@@ -25,7 +25,7 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="flex items-center text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">
+                        <button class="flex items-center text-sm font-medium text-white transition duration-150 ease-in-out hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">
                             <div>{{ ucfirst(Auth::user()->name) }}</div>
 
                             <div class="ml-1">
@@ -62,7 +62,7 @@
 
             <!-- Hamburger -->
             <div class="flex items-center -mr-2 sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 text-white transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500">
                     <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -78,16 +78,14 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('profile', Auth::user())" :active="request()->routeIs('profile')">
+                {{ __('Profile') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="text-base font-medium text-gray-800">{{ ucfirst(Auth::user()->name) }}</div>
-                <div class="text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
+        <div class="pt-4 border-t border-gray-200">
+            <div class="space-y-1">
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
