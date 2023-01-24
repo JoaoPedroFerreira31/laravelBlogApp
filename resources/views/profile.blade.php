@@ -30,64 +30,60 @@
                 </div>
 
                 {{-- Followers section --}}
-                <template x-if="user_id === user.id">
-                    <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div class="flex flex-col w-full">
-                            <div class="flex flex-wrap justify-between">
-                                <div class="flex flex-col">
-                                    <h1 class="text-lg font-bold text-gray-900">Followers</h1>
-                                    <span x-show="user.pending_requests_count > 0" @click.prevent="isShowingPendingRequests = !isShowingPendingRequests" type="button" class="text-xs text-gray-500 hover:cursor-pointer hover:text-gray-300"><span x-text="user.pending_requests_count"></span> Pending requests</span>
+                <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div class="flex flex-col w-full">
+                        <div class="flex flex-wrap justify-between">
+                            <div class="flex flex-col">
+                                <h1 class="text-lg font-bold text-gray-900">Followers (<span class="text-md" x-text="user.followers_count"></span>)</h1>
+                                <span x-show="user.pending_requests_count > 0 && user_id === user.id" @click.prevent="isShowingPendingRequests = !isShowingPendingRequests" type="button" class="text-xs text-gray-500 hover:cursor-pointer hover:text-gray-300"><span x-text="user.pending_requests_count"></span> Pending requests</span>
+                            </div>
+                        </div>
+                        <template x-for="pendingUser in user.pending_requests">
+                            <div x-show="isShowingPendingRequests" class="inline-flex justify-between w-full mt-3">
+                                <div class="flex flex-col items-center">
+                                    <h6 class="text-sm font-bold hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+pendingUser.id)" x-text="pendingUser.name"></h6>
+                                </div>
+                                <div class="flex flex-wrap" x-show="user_id === user.id">
+                                    <x-fas-check-circle @click.prevent="acceptPendingRequest(`${pendingUser.id}`)" class="w-5 h-5 mr-2 text-green-500 cursor-pointer hover:text-green-200"/>
+                                    <x-fas-times-circle @click.prevent="rejectPendingRequest(`${pendingUser.id}`)" class="w-5 h-5 text-red-500 cursor-pointer hover:text-red-200"/>
                                 </div>
                             </div>
-                            <template x-for="pendingUser in user.pending_requests">
-                                <div x-show="isShowingPendingRequests" class="inline-flex justify-between w-full mt-3">
-                                    <div class="flex flex-col items-center">
-                                        <h6 class="text-sm font-bold hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+pendingUser.id)" x-text="pendingUser.name"></h6>
-                                    </div>
-                                    <div class="flex flex-wrap">
-                                        <x-fas-check-circle @click.prevent="acceptPendingRequest(`${pendingUser.id}`)" class="w-5 h-5 mr-2 text-green-500 cursor-pointer hover:text-green-200"/>
-                                        <x-fas-times-circle @click.prevent="rejectPendingRequest(`${pendingUser.id}`)" class="w-5 h-5 text-red-500 cursor-pointer hover:text-red-200"/>
-                                    </div>
+                        </template>
+                        <template x-for="follower in user.followers">
+                            <div x-show="!isShowingPendingRequests" class="flex justify-between w-full mt-4">
+                                <div class="inline-flex items-center">
+                                    <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="follower.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
+                                    <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+follower.id)" x-text="follower.name"></h6>
                                 </div>
-                            </template>
-                            <template x-for="follower in user.followers">
-                                <div x-show="!isShowingPendingRequests" class="flex justify-between w-full mt-4">
-                                    <div class="inline-flex items-center">
-                                        <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="follower.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
-                                        <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+follower.id)" x-text="follower.name"></h6>
-                                    </div>
-                                    <button type="button" x-text="'Remove'" @click.prevent="removeFollower(`${follower.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
-                                    </button>
-                                </div>
-                            </template>
-                        </div>
+                                <button type="button" x-text="'Remove'" x-show="user_id === user.id" @click.prevent="removeFollower(`${follower.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
+                                </button>
+                            </div>
+                        </template>
                     </div>
-                </template>
+                </div>
+
 
                 {{-- Followings section --}}
-                <template x-if="user_id === user.id">
-                    <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div class="flex flex-col w-full">
-                            <div class="flex flex-wrap justify-between">
-                                <div class="flex flex-col">
-                                    <h1 class="text-lg font-bold text-gray-900">Followings</h1>
-                                    {{-- <span @click.prevent="isShowingPendingRequests = !isShowingPendingRequests" type="button" class="text-xs text-gray-500" :class="user.pending_requests_count > 0 ? 'hover:cursor-pointer hover:text-gray-300' : 'hover:cursor-default'"><span x-text="user.pending_requests_count"></span> Pending requests</span> --}}
-                                </div>
+                <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div class="flex flex-col w-full">
+                        <div class="flex flex-wrap justify-between">
+                            <div class="inline-flex">
+                                <h1 class="text-lg font-bold text-gray-900">Followings (<span class="text-md" x-text="user.followings_count"></span>)</h1>
                             </div>
-                            {{-- <template x-for="pendingUser in user.pending_requests">
-                                <div x-show="isShowingPendingRequests" class="inline-flex justify-between w-full mt-3">
-                                    <div class="flex flex-col">
-                                        <h6 class="text-sm font-bold hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+pendingUser.id)" x-text="pendingUser.name"></h6>
-                                    </div>
-                                    <div class="flex flex-wrap">
-                                        <x-fas-check-circle @click.prevent="acceptPendingRequest(`${pendingUser.id}`)" class="w-5 h-5 mr-2 text-green-500 cursor-pointer hover:text-green-200"/>
-                                        <x-fas-times-circle @click.prevent="rejectPendingRequest(`${pendingUser.id}`)" class="w-5 h-5 text-red-500 cursor-pointer hover:text-red-200"/>
-                                    </div>
-                                </div>
-                            </template> --}}
                         </div>
+                        <template x-for="following in user.followings">
+                            <div class="flex justify-between w-full mt-4">
+                                <div class="inline-flex items-center">
+                                    <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="following.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
+                                    <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+following.id)" x-text="following.name"></h6>
+                                </div>
+                                {{-- <button type="button" x-text="'Unfollow'" x-show="following.id !== user_id" @click.prevent="toggleFollowUser(`${following.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" > --}}
+                                {{-- </button> --}}
+                            </div>
+                        </template>
                     </div>
-                </template>
+                </div>
+
             </div>
 
             {{-- Page content --}}
@@ -154,7 +150,7 @@
                                         </div>
                                     </div>
                                 </template>
-                                <template x-if="post.comments.length > 0" x-for="comment in post.comments" :key="comment.id">
+                                <template x-for="comment in post?.comments" :key="comment.id">
                                     <div class="w-full mt-2">
                                         <div class="flex items-center px-3 py-1 rounded-lg bg-gray-50 dark:bg-gray-700">
                                             <div class="inline-flex justify-between w-full text-xs">

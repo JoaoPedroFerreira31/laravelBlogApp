@@ -7,7 +7,7 @@
                     <h1 class="text-lg font-bold text-gray-900 align-center">Welcome <span class="" x-text="username"></span></h1>
                     <div class="flex-col text-right gap-y-1">
                         <div class="text-sm text-gray-500">You have<span class="mx-1" x-text="userPosts.length">0</span>post</div>
-                        <span @click.prevent="isCrudPostModalOpen = true" class="text-xs text-left text-blue-700 cursor-pointer hover:text-blue-500">Create new post</span>
+                        <button type="button" @click.prevent="isCrudPostModalOpen = true" class="mt-2 px-4 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-300 ">Create new post</button>
                     </div>
                 </div>
             </div>
@@ -17,6 +17,7 @@
         <div class="flex justify-center w-full">
             <div class="inline-flex justify-start w-full max-w-lg mt-2 gap-x-2">
                 <div :class="filterName === 'all_posts' ? 'px-4 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none' : 'px-4 py-1 text-xs text-white bg-gray-500 border border-gray-500 rounded-md shadow-sm cursor-pointer hover:bg-gray-400 hover:shadow-none'"  @click.prevent="filter('all_posts')"  x-text="'All posts'"></div>
+                <div :class="filterName === 'friends_posts' ? 'px-4 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none' : 'px-4 py-1 text-xs text-white bg-gray-500 border border-gray-500 rounded-md shadow-sm cursor-pointer hover:bg-gray-400 hover:shadow-none'"  @click.prevent="filter('friends_posts')"  x-text="'Friends posts'"></div>
                 <div :class="filterName === 'user_posts' ? 'px-4 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none' : 'px-4 py-1 text-xs text-white bg-gray-500 border border-gray-500 rounded-md shadow-sm cursor-pointer hover:bg-gray-400 hover:shadow-none'"  @click.prevent="filter('user_posts')" x-text="'My posts'"></div>
             </div>
         </div>
@@ -126,6 +127,7 @@
             posts: [],
             comments: [],
             userPosts: [],
+            friendsPosts: [],
             filteredPosts: [],
             init() {
 
@@ -146,6 +148,13 @@
                         this.comments = value;
                     })
                     .catch((err) => { console.log(err) });
+
+                    //Friends Posts
+                    localForage.getItem('fetch-friend-posts-'+user_id)
+                    .then((value) => {
+                        this.friendsPosts = value;
+                    })
+                    .catch((err) => { console.log(err) });
                 }
 
                 console.log(user_id);
@@ -164,7 +173,14 @@
                     console.log(error);
                 });
 
-
+                axios.get('api/fetch-friends-posts/')
+                .then((response) => {
+                    console.log('friends-posts', response.data.data);
+                    this.friendsPosts = response.data.data;
+                    saveStorage('fetch-friend-posts-'+user_id, response.data.data);
+                }).catch((error) => {
+                    console.log(error);
+                });
 
                 axios.get('api/comments/')
                 .then((response) => {
@@ -204,6 +220,10 @@
                     case 'user_posts':
                         this.filteredPosts = this.userPosts;
                         this.filterName = 'user_posts';
+                        break;
+                    case 'friends_posts':
+                        this.filteredPosts = this.friendsPosts;
+                        this.filterName = 'friends_posts';
                         break;
                 }
             },
