@@ -1,5 +1,5 @@
 DONE - Follow system
-WIP - Posts show page
+DONE - Posts show page
 - Notification system
 DONE - Dashboard design update
 - Explore page
@@ -8,3 +8,6 @@ DONE - Dashboard design update
 - Controllers update
 - Search bar
 - Language system
+- Create profile settings (add photo, description, nationality, site, etc...)
+- Make comment modal
+- posts with photo

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,8 +24,24 @@ Route::get('/', function () {
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::resource('/posts', PostController::class);
+
     Route::get('/dashboard', function () {
-        return view('dashboard');
+
+        $user = Auth::user();
+        $user->load('followings');
+        $friendsID = $user->followings->pluck('id');
+
+        $posts = Post::latest()->withCount('comments')->get();
+        $userPosts = Post::where('author', $user->id)->with('comments', 'comments.user')->withCount('comments')->get();
+        $userFriendsPosts = Post::whereIn('author', $friendsID)->with('comments', 'comments.user')->withCount('comments')->get();
+
+        return view('dashboard', [
+            'posts' => $posts,
+            'userPosts' => $userPosts,
+            'userFriendsPosts' => $userFriendsPosts
+        ]);
+
     })->name('dashboard');
 
     Route::get('/profile/{user}', function (Request $request) {
@@ -37,6 +55,8 @@ Route::middleware('auth:sanctum')->group(function () {
             'followings',
             'pendingRequests'
         )->loadCount('followers', 'followings', 'pendingRequests', 'posts');
+
+        $user->posts->loadCount('comments');
 
         return view('profile', [
             'user' => $user,

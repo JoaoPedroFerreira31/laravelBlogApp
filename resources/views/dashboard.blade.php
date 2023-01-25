@@ -3,6 +3,7 @@
         <div class="grid w-full gap-4 mt-2 lg:grid-cols-3 sm:grid-cols-1">
             {{-- Main section --}}
             <section class="col-span-2">
+
                 {{-- Filters --}}
                 <div class="flex w-full sm:justify-center lg:justify-end">
                     <div class="inline-flex justify-between w-full max-w-lg p-3 mt-2 bg-white rounded-md gap-x-2">
@@ -38,7 +39,7 @@
                     <div class="flex w-full sm:justify-center lg:justify-end">
                         <div class="w-full max-w-lg px-6 py-4 mt-4 overflow-hidden bg-white shadow-sm sm:rounded-lg hover:shadow-xl hover:cursor-pointer">
                             <div class="inline-flex justify-between w-full">
-                                <div class="w-8/12">
+                                <div @click="navigateTo('/posts/'+post.id)" class="w-8/12">
                                     <h1 class="font-bold text-gray-900" x-text="post.title"></h1>
                                 </div>
                                 <div class="flex-col w-4/12 text-right">
@@ -70,10 +71,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="h-20 mt-2 overflow-hidden">
+                            <div class="h-20 mt-2 overflow-hidden" @click="navigateTo('/posts/'+post.id)">
                                 <p class="text-sm text-gray-500" x-text="post?.content"></p>
                             </div>
-                            <div :class="post.created_at !== post.updated_at ? 'flex justify-between w-full mt-2' : 'flex justify-end w-full mt-2'">
+                            <div @click="navigateTo('/posts/'+post.id)" :class="post.created_at !== post.updated_at ? 'flex justify-between w-full mt-2' : 'flex justify-end w-full mt-2'">
                                 <span class="text-xs text-gray-500 whitespace-nowrap" x-text="'Publicado em: ' + date_short(post.created_at)"></span>
                                 <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*Editado</span>
                             </div>
@@ -91,6 +92,7 @@
                                     <span class="ml-1 text-sm text-gray-400" >0</span>
                                 </span>
                             </div>
+
                             {{-- Comments --}}
                             {{-- <template x-for="comment in post.comments" :key="comment.id">
                                 <div class="w-full mt-2">
@@ -155,14 +157,15 @@
 
         </div>
 
-
-
-
         <x-modals.crud-post/>
         <x-modals.delete-pop-up/>
     </div>
 </x-app-layout>
 <script>
+    let backendPosts = @json($posts);
+    let backendUserPosts = @json($userPosts);
+    let backendUserFriendsPosts = @json($userFriendsPosts);
+
     function dashboardData() {
         return {
             ttp_tools: 'Options',
@@ -176,21 +179,27 @@
                 content: null,
                 author: user_id,
             },
-            commentForm: {
-                post_id: null,
-                user_id: user_id,
-                comment: null,
-            },
+            // commentForm: {
+            //     post_id: null,
+            //     user_id: user_id,
+            //     comment: null,
+            // },
             posts: [],
-            comments: [],
             userPosts: [],
             friendsPosts: [],
             filteredPosts: [],
             init() {
 
+                try {
+                    this.posts = backendPosts;
+                    this.userPosts = backendUserPosts;
+                    this.friendsPosts = backendUserFriendsPosts;
+                } catch (err) {
+                    console.log(err);
+                }
+
                 // load data from localStorage
                 if (typeof Storage !== 'undefined') {
-
                     //Posts
                     localForage.getItem('posts')
                     .then((value) => {
@@ -199,17 +208,17 @@
                     })
                     .catch((err) => { console.log(err) });
 
-                    //Comments
-                    localForage.getItem('comments')
-                    .then((value) => {
-                        this.comments = value;
-                    })
-                    .catch((err) => { console.log(err) });
-
                     //Friends Posts
                     localForage.getItem('fetch-friend-posts-'+user_id)
                     .then((value) => {
                         this.friendsPosts = value;
+                    })
+                    .catch((err) => { console.log(err) });
+
+                    //User Posts
+                    localForage.getItem('fetch-user-posts-'+user_id)
+                    .then((value) => {
+                        this.userPosts = value;
                     })
                     .catch((err) => { console.log(err) });
                 }
@@ -228,7 +237,6 @@
                     console.log('posts', response.data.data);
                     this.posts = response.data.data;
                     this.filteredPosts = response.data.data;
-                    this.userPosts = this.posts.filter(post => post.author === user_id);
                     saveStorage('posts', response.data.data);
                 }).catch((error) => {
                     console.log(error);
@@ -239,6 +247,15 @@
                     console.log('friends-posts', response.data.data);
                     this.friendsPosts = response.data.data;
                     saveStorage('fetch-friend-posts-'+user_id, response.data.data);
+                }).catch((error) => {
+                    console.log(error);
+                });
+
+                axios.get('api/fetch-user-posts/')
+                .then((response) => {
+                    console.log('user-posts', response.data.data);
+                    this.userPosts = response.data.data;
+                    saveStorage('fetch-user-posts-'+user_id, response.data.data);
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -293,25 +310,25 @@
                         .catch((error) => console.log(error.message));
                 }
             },
-            clearCommentsForm() {
-                this.commentForm.post_id = null;
-                this.commentForm.user_id = user_id;
-                this.commentForm.comment = null;
-            },
-            saveCommentData(record_id) {
-                let post = this.posts.find(post => post.id === record_id);
+            // clearCommentsForm() {
+            //     this.commentForm.post_id = null;
+            //     this.commentForm.user_id = user_id;
+            //     this.commentForm.comment = null;
+            // },
+            // saveCommentData(record_id) {
+            //     let post = this.posts.find(post => post.id === record_id);
 
-                this.commentForm.post_id = post.id;
+            //     this.commentForm.post_id = post.id;
 
-                axios.post('api/comments',this.commentForm)
-                .then(response => {
-                    this.clearCommentsForm();
-                    this.fetchData();
-                }).catch(error => {
-                    console.log(error.message)
-                });
+            //     axios.post('api/comments',this.commentForm)
+            //     .then(response => {
+            //         this.clearCommentsForm();
+            //         this.fetchData();
+            //     }).catch(error => {
+            //         console.log(error.message)
+            //     });
 
-            },
+            // },
         }
     }
 </script>

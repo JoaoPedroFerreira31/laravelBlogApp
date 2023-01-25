@@ -32,6 +32,7 @@ Route::name('api.')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('posts', PostController::class);
     Route::apiResource('comments', CommentController::class);
 
-    Route::get('fetch-friends-posts', [PostController::class, 'userFriendsPosts']);
+    Route::get('fetch-friends-posts', [PostController::class, 'fetchUserFriendsPosts']);
+    Route::get('fetch-user-posts', [PostController::class, 'fetchUserPosts']);
 });
 
