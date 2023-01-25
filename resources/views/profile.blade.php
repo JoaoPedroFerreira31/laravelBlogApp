@@ -94,10 +94,11 @@
                         <span x-show="user_id === user.id" class="text-sm text-center text-gray-500">Aqui nesta pagina pode gerir todo o conteudo relacionado com o seu perfil</sp>
                     </div>
                 </div>
-                    <template x-for="post in user.posts" :key="post.id">
+                   {{-- Posts --}}
+                    <template x-for="post in userPosts" :key="post.id">
 
                         <div class="flex justify-center w-full">
-                            <div class="w-full px-6 py-4 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                            <div class="w-full px-6 py-4 mt-3 overflow-hidden bg-white shadow-sm sm:rounded-lg hover:shadow-xl hover:cursor-pointer">
                                 <div class="inline-flex justify-between w-full">
                                     <div class="w-8/12">
                                         <h1 class="font-bold text-gray-900" x-text="post.title"></h1>
@@ -131,38 +132,41 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mt-2">
+                                <div class="h-20 mt-2 overflow-hidden">
                                     <p class="text-sm text-gray-500" x-text="post?.content"></p>
                                 </div>
                                 <div :class="post.created_at !== post.updated_at ? 'flex justify-between w-full mt-2' : 'flex justify-end w-full mt-2'">
                                     <span class="text-xs text-gray-500 whitespace-nowrap" x-text="'Publicado em: ' + date_short(post.created_at)"></span>
                                     <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*Editado</span>
                                 </div>
+
                                 <hr class="mt-1 text-gray-500 border-1">
 
-
-                                <template x-if="post?.comments.length === 0 && !posts?.comments">
-                                    <div class="w-full mt-2">
-                                        <div class="flex items-center px-3 py-1 rounded-lg dark:bg-gray-700">
-                                            <div class="inline-flex justify-center w-full text-xs">
-                                                <span class="font-semibold text-gray-500">No comments found</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </template>
-                                <template x-for="comment in post?.comments" :key="comment.id">
+                                {{-- Post buttons --}}
+                                <div class="flex flex-wrap justify-start w-full gap-3 mt-2">
+                                    <span class="inline-flex items-center">
+                                        <x-fas-comment class="w-4 h-4 text-gray-300"/>
+                                        <span class="ml-1 text-sm text-gray-400" x-text="post.comments_count">0</span>
+                                    </span>
+                                    <span class="inline-flex items-center">
+                                        <x-fas-heart class="w-4 h-4 text-gray-300"/>
+                                        <span class="ml-1 text-sm text-gray-400" >0</span>
+                                    </span>
+                                </div>
+                                {{-- Comments --}}
+                                {{-- <template x-for="comment in post.comments" :key="comment.id">
                                     <div class="w-full mt-2">
                                         <div class="flex items-center px-3 py-1 rounded-lg bg-gray-50 dark:bg-gray-700">
                                             <div class="inline-flex justify-between w-full text-xs">
                                                 <div class="inline-flex">
-                                                    <span class="mr-2 font-bold" x-text="comment?.user?.name"></span>
+                                                    <span class="mr-2 font-bold" x-text="comment.user.name"></span>
                                                     <span x-text="comment?.comment"></span>
                                                 </div>
                                                 <span x-text="date_readable(comment?.created_at)"></span>
                                             </div>
                                         </div>
                                     </div>
-                                </template>
+                                </template> --}}
 
                                 {{-- Add Comments --}}
                                 {{-- <div class="w-full mt-2">
@@ -179,7 +183,7 @@
                                 </div> --}}
 
                             </div>
-
+                        </div>
                     </template>
                 </div>
             </div>

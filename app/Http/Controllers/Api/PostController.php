@@ -25,7 +25,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::latest()->with('comments', 'comments.user')->get();
+        $posts = Post::latest()->withCount('comments')->get();
 
         return new PostCollection($posts);
     }

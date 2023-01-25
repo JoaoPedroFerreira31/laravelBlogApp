@@ -1,7 +1,9 @@
 DONE - Follow system
 - Posts show page
 - Notification system
-- Dashboard design update
+WIP - Dashboard design update
 - Explore page
 - Update pending requests section
 - Create Edit/Delete comments section inside profile
+- Controllers update
+- Search bar

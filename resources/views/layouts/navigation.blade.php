@@ -15,7 +15,7 @@
                     <x-nav-link x-tooltip="ttp_dashboard" :href="route('dashboard')" class="hover:opacity-80" :active="request()->routeIs('dashboard')">
                         <x-fas-home class="w-6 h-6 text-white "/>
                     </x-nav-link>
-                    <x-nav-link x-tooltip="ttp_profile" :href="route('profile', Auth::user())" :active="request()->routeIs('profile')">
+                    <x-nav-link x-tooltip="ttp_profile" :href="route('profile', Auth::user())" class="hover:opacity-80" :active="request()->routeIs('profile')">
                         <x-fas-user-alt class="w-5 h-5 text-white "/>
                     </x-nav-link>
                 </div>
@@ -23,6 +23,9 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+
+                <x-fas-bell class="w-5 h-5 mr-3 text-white hover:opacity-80 hover:cursor-pointer"/>
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-white transition duration-150 ease-in-out hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">
