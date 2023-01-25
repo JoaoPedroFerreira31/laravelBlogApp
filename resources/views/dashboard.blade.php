@@ -15,6 +15,23 @@
                     </div>
                 </div>
 
+                {{-- Loading placeholder --}}
+                {{-- <div x-show="!isLoading" class="max-w-lg mt-2 border rounded-md shadow ">
+                    <div class="flex p-6 space-x-4 animate-pulse">
+                        <div class="w-10 h-10 rounded-full bg-slate-300"></div>
+                        <div class="flex-1 py-1 space-y-6">
+                            <div class="h-2 rounded bg-slate-300"></div>
+                            <div class="space-y-3">
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="h-2 col-span-2 rounded bg-slate-300"></div>
+                                    <div class="h-2 col-span-1 rounded bg-slate-300"></div>
+                                </div>
+                                <div class="h-2 rounded bg-slate-300"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+
                 {{-- Posts --}}
                 <template x-for="post in filteredPosts" :key="post.id">
 
@@ -153,6 +170,7 @@
             isCrudPostModalOpen: false,
             isPostEditing: false,
             editPostID: null,
+            isLoading: true,
             postForm: {
                 title: null,
                 content: null,
@@ -197,6 +215,10 @@
                 }
 
                 console.log(user_id);
+
+                this.$watch('posts', (value) => {
+                    this.isLoading = false;
+                });
 
                 this.fetchData();
             },

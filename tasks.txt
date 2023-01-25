@@ -1,9 +1,10 @@
 DONE - Follow system
-- Posts show page
+WIP - Posts show page
 - Notification system
-WIP - Dashboard design update
+DONE - Dashboard design update
 - Explore page
 - Update pending requests section
 - Create Edit/Delete comments section inside profile
 - Controllers update
 - Search bar
+- Language system
