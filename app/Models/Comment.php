@@ -26,6 +26,10 @@ class Comment extends Model
         'created_at',
     ];
 
+    public function getcommentAuthorAttribute() {
+        return $this->user->name ?? null;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

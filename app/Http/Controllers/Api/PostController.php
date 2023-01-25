@@ -65,6 +65,21 @@ class PostController extends Controller
     }
 
     /**
+     * @param \App\Models\Post $post
+     * @return \Illuminate\Http\Response
+     */
+    public function userFriendsPosts()
+    {
+        $user = Auth::user();
+        $user->load('followings');
+        $friendsID = $user->followings->pluck('id');
+        // logger($friendsID);
+        $posts = Post::whereIn('author', $friendsID)->with('comments', 'comments.user')->get();
+
+        return new PostCollection($posts);
+    }
+
+    /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Post $post
      * @return \Illuminate\Http\Response

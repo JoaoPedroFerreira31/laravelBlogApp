@@ -1,19 +1,92 @@
 <x-app-layout>
     <div x-data="profilData()" class="mx-auto max-w-7xl sm:px-6 lg:px-8" x-cloak>
         <div class="grid w-full gap-2 mt-2 lg:grid-cols-3 sm:grid-cols-1">
+
+            {{-- User information --}}
             <div>
                 <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+
+                    {{-- User header --}}
                     <div class="flex flex-col w-full">
                         <div class="flex flex-wrap justify-center w-full mb-2">
                             <img class="w-20 h-20 rounded-full" src="{{ asset('images\placeholder.png') }}" alt="">
                         </div>
                         <h1 class="font-bold text-center text-gray-900" x-text="user_id === user.id ? 'Welcome '+username : user.name"></h1>
+                        <div class="inline-flex justify-center w-full gap-x-2">
+                            <span class="text-sm font-bold"><span x-text="user.posts_count" class="mr-1"></span> Posts</span>
+                            <span class="text-sm font-bold"><span x-text="user.followers_count" class="mr-1"></span> Followers</span>
+                            <span class="text-sm font-bold"><span x-text="user.followings_count" class="mr-1"></span> Following</span>
+                        </div>
+
+                        {{-- Follow btn --}}
+                        <template x-if="user_id !== user.id">
+                            <div class="flex justify-center w-full mt-1">
+                                <button type="button" x-text="authHasfollowedRequestProfileUser ? 'Pending' : (authIsFollowingProfileUser ? 'Unfollow' : 'Follow')" @click.prevent="toggleFollowUser(`${user.id}`)" class="inline-flex items-center px-6 py-1.5 mt-2 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
+                                </button>
+                            </div>
+
+                        </template>
                     </div>
                 </div>
+
+                {{-- Followers section --}}
                 <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                    <h1 class="text-lg font-bold text-gray-900">Friends</h1>
+                    <div class="flex flex-col w-full">
+                        <div class="flex flex-wrap justify-between">
+                            <div class="flex flex-col">
+                                <h1 class="text-lg font-bold text-gray-900">Followers (<span class="text-md" x-text="user.followers_count"></span>)</h1>
+                                <span x-show="user.pending_requests_count > 0 && user_id === user.id" @click.prevent="isShowingPendingRequests = !isShowingPendingRequests" type="button" class="text-xs text-gray-500 hover:cursor-pointer hover:text-gray-300"><span x-text="user.pending_requests_count"></span> Pending requests</span>
+                            </div>
+                        </div>
+                        <template x-for="pendingUser in user.pending_requests">
+                            <div x-show="isShowingPendingRequests" class="inline-flex justify-between w-full mt-3">
+                                <div class="flex flex-col items-center">
+                                    <h6 class="text-sm font-bold hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+pendingUser.id)" x-text="pendingUser.name"></h6>
+                                </div>
+                                <div class="flex flex-wrap" x-show="user_id === user.id">
+                                    <x-fas-check-circle @click.prevent="acceptPendingRequest(`${pendingUser.id}`)" class="w-5 h-5 mr-2 text-green-500 cursor-pointer hover:text-green-200"/>
+                                    <x-fas-times-circle @click.prevent="rejectPendingRequest(`${pendingUser.id}`)" class="w-5 h-5 text-red-500 cursor-pointer hover:text-red-200"/>
+                                </div>
+                            </div>
+                        </template>
+                        <template x-for="follower in user.followers">
+                            <div x-show="!isShowingPendingRequests" class="flex justify-between w-full mt-4">
+                                <div class="inline-flex items-center">
+                                    <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="follower.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
+                                    <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+follower.id)" x-text="follower.name"></h6>
+                                </div>
+                                <button type="button" x-text="'Remove'" x-show="user_id === user.id" @click.prevent="removeFollower(`${follower.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
+                                </button>
+                            </div>
+                        </template>
+                    </div>
                 </div>
+
+
+                {{-- Followings section --}}
+                <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div class="flex flex-col w-full">
+                        <div class="flex flex-wrap justify-between">
+                            <div class="inline-flex">
+                                <h1 class="text-lg font-bold text-gray-900">Followings (<span class="text-md" x-text="user.followings_count"></span>)</h1>
+                            </div>
+                        </div>
+                        <template x-for="following in user.followings">
+                            <div class="flex justify-between w-full mt-4">
+                                <div class="inline-flex items-center">
+                                    <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="following.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
+                                    <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+following.id)" x-text="following.name"></h6>
+                                </div>
+                                <button type="button" x-text="'Unfollow'" x-show="user_id === user.id" @click.prevent="toggleFollowUser(`${following.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" > --}}
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
             </div>
+
+            {{-- Page content --}}
             <div class="lg:col-span-2">
                 <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="flex flex-col w-full">
@@ -68,7 +141,7 @@
                                 <hr class="mt-1 text-gray-500 border-1">
 
 
-                                <template x-if="post.comments.length === 0">
+                                <template x-if="post?.comments.length === 0 && !posts?.comments">
                                     <div class="w-full mt-2">
                                         <div class="flex items-center px-3 py-1 rounded-lg dark:bg-gray-700">
                                             <div class="inline-flex justify-center w-full text-xs">
@@ -77,7 +150,7 @@
                                         </div>
                                     </div>
                                 </template>
-                                <template x-if="post.comments.length > 0" x-for="comment in post.comments" :key="comment.id">
+                                <template x-for="comment in post?.comments" :key="comment.id">
                                     <div class="w-full mt-2">
                                         <div class="flex items-center px-3 py-1 rounded-lg bg-gray-50 dark:bg-gray-700">
                                             <div class="inline-flex justify-between w-full text-xs">
@@ -121,6 +194,9 @@
         return {
             ttp_tools: 'Options',
             filterName: 'all_posts',
+            authHasfollowedRequestProfileUser: null,
+            authIsFollowingProfileUser: null,
+            isShowingPendingRequests: false,
             isCrudPostModalOpen: false,
             isPostEditing: false,
             editPostID: null,
@@ -140,10 +216,14 @@
             filteredPosts: [],
             user: null,
             init() {
-
                 try {
                     this.user = backendRecord;
+                    this.authHasfollowedRequestProfileUser = "{{ Auth::user()->hasRequestedToFollow($user) }}";
+                    this.authIsFollowingProfileUser = "{{ Auth::user()->isFollowing($user) }}";
+
                     console.log('profile user', this.user);
+                    console.log('has request to follow', this.authHasfollowedRequestProfileUser);
+                    console.log('is following', this.authIsFollowingProfileUser);
                 } catch(err) {
                     console.log(err);
                 }
@@ -165,6 +245,13 @@
                         this.comments = value;
                     })
                     .catch((err) => { console.log(err) });
+
+                    //User
+                    localForage.getItem('user-'+this.user.id)
+                    .then((value) => {
+                        this.user = value;
+                    })
+                    .catch((err) => { console.log(err) });
                 }
 
                 console.log(user_id);
@@ -172,6 +259,7 @@
                 this.fetchData();
             },
             fetchData() {
+
                 axios.get('/api/posts/')
                 .then((response) => {
                     console.log('posts', response.data.data);
@@ -183,7 +271,14 @@
                     console.log(error);
                 });
 
-
+                axios.get('/api/users/'+this.user.id)
+                .then((response) => {
+                    console.log('user', response.data.data);
+                    this.user = response.data.data;
+                    saveStorage('user-'+this.user.id, response.data.data);
+                }).catch((error) => {
+                    console.log(error);
+                });
 
                 axios.get('/api/comments/')
                 .then((response) => {
@@ -238,6 +333,41 @@
                         })
                         .catch((error) => console.log(error.message));
                 }
+            },
+            toggleFollowUser(record_id) {
+                axios.post('/api/users/toggle-follow-user/'+record_id)
+                    .then(response => {
+                        this.fetchData();
+                        this.authHasfollowedRequestProfileUser = !this.authHasfollowedRequestProfileUser;
+                        if(this.authIsFollowingProfileUser) {
+                            this.authIsFollowingProfileUser = !this.authIsFollowingProfileUser;
+                            this.authHasfollowedRequestProfileUser = !this.authHasfollowedRequestProfileUser;
+                        }
+                    })
+                    .catch((error) => console.log(error.message));
+            },
+            acceptPendingRequest(record_id) {
+                axios.post('/api/users/accept-pending-request/'+record_id)
+                .then(response => {
+                    this.fetchData();
+                    this.isShowingPendingRequests = false;
+                })
+                .catch((error) => console.log(error.message));
+            },
+            rejectPendingRequest(record_id) {
+                axios.post('/api/users/reject-pending-request/'+record_id)
+                .then(response => {
+                    this.fetchData();
+                    this.isShowingPendingRequests = false;
+                })
+                .catch((error) => console.log(error.message));
+            },
+            removeFollower(record_id) {
+                axios.post('/api/users/remove-follower/'+record_id)
+                .then(response => {
+                    this.fetchData();
+                })
+                .catch((error) => console.log(error.message));
             },
             clearCommentsForm() {
                 this.commentForm.post_id = null;
