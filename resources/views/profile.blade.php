@@ -21,7 +21,7 @@
                         {{-- Follow btn --}}
                         <template x-if="user_id !== user.id">
                             <div class="flex justify-center w-full mt-1">
-                                <button type="button" x-text="authHasfollowedRequestProfileUser ? 'Pending' : (authIsFollowingProfileUser ? 'Unfollow' : 'Follow')" @click.prevent="toggleFollowUser(`${user.id}`)" class="inline-flex items-center px-6 py-1.5 mt-2 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
+                                <button type="button" x-text="authHasFollowedRequestProfileUser ? 'Pending' : (authIsFollowingProfileUser ? 'Unfollow' : 'Follow')" @click.prevent="toggleFollowUser(`${user.id}`)" class="inline-flex items-center px-6 py-1.5 mt-2 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
                                 </button>
                             </div>
                         </template>
@@ -180,7 +180,7 @@
     function profileData() {
         return {
             ttp_tools: 'Options',
-            authHasfollowedRequestProfileUser: null,
+            authHasFollowedRequestProfileUser: null,
             authIsFollowingProfileUser: null,
             isShowingPendingRequests: false,
             isCrudPostModalOpen: false,
@@ -199,27 +199,18 @@
             init() {
                 try {
                     this.user = backendRecord;
-                    this.authHasfollowedRequestProfileUser = "{{ Auth::user()->hasRequestedToFollow($user) }}";
+                    this.authHasFollowedRequestProfileUser = "{{ Auth::user()->hasRequestedToFollow($user) }}";
                     this.authIsFollowingProfileUser = "{{ Auth::user()->isFollowing($user) }}";
 
                     console.log('profile user', this.user);
-                    console.log('has request to follow', this.authHasfollowedRequestProfileUser);
-                    console.log('is following', this.authIsFollowingProfileUser);
+                    console.log(username+' has request to follow '+this.user.name+'?', this.authHasFollowedRequestProfileUser ? 'Yes' : 'No');
+                    console.log(username+' is following '+this.user.name+'?', this.authIsFollowingProfileUser ? 'Yes' : 'No');
                 } catch(err) {
                     console.log(err);
                 }
 
                 // load data from localStorage
                 if (typeof Storage !== 'undefined') {
-
-                    //Posts
-                    localForage.getItem('posts')
-                    .then((value) => {
-                        this.posts = value;
-                        this.filteredPosts = value;
-                    })
-                    .catch((err) => { console.log(err) });
-
                     //User
                     localForage.getItem('user-'+this.user.id)
                     .then((value) => {
@@ -235,17 +226,6 @@
                 this.fetchData();
             },
             fetchData() {
-
-                axios.get('/api/posts/')
-                .then((response) => {
-                    console.log('posts', response.data.data);
-                    this.posts = response.data.data;
-                    this.filteredPosts = response.data.data;
-                    this.userPosts = this.posts.filter(post => post.author === user_id);
-                    saveStorage('posts', response.data.data);
-                }).catch((error) => {
-                    console.log(error);
-                });
 
                 axios.get('/api/users/'+this.user.id)
                 .then((response) => {
@@ -306,10 +286,10 @@
                 axios.post('/api/users/toggle-follow-user/'+record_id)
                     .then(response => {
                         this.fetchData();
-                        this.authHasfollowedRequestProfileUser = !this.authHasfollowedRequestProfileUser;
+                        this.authHasFollowedRequestProfileUser = !this.authHasFollowedRequestProfileUser;
                         if(this.authIsFollowingProfileUser) {
                             this.authIsFollowingProfileUser = !this.authIsFollowingProfileUser;
-                            this.authHasfollowedRequestProfileUser = !this.authHasfollowedRequestProfileUser;
+                            this.authHasFollowedRequestProfileUser = !this.authHasFollowedRequestProfileUser;
                         }
                     })
                     .catch((error) => console.log(error.message));

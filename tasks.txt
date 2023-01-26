@@ -9,5 +9,7 @@ DONE - Dashboard design update
 - Search bar
 - Language system
 - Create profile settings (add photo, description, nationality, site, etc...)
-- Make comment modal
-- posts with photo
+- Make comment modal (Dashboard)
+DONE - Make comment section (Post show)
+- Posts with photo
+- Like system

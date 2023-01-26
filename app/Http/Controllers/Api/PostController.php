@@ -38,6 +38,7 @@ class PostController extends Controller
     public function show(Request $request, Post $post)
     {
         $post->load(
+            'author',
             'comments',
             'comments.user'
         )->loadCount('comments');

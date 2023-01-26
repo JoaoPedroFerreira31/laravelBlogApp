@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -49,10 +50,12 @@ class PostController extends Controller
      */
     public function show(Request $request, Post $post)
     {
-        $post->load('comments', 'comments.user')->loadCount('comments');
+        $post->load('author', 'comments', 'comments.user')->loadCount('comments');
+        $author = User::where('id', $post->author)->with('pendingRequests')->first();
 
         return view('post-show', [
-            'post' => $post
+            'post' => $post,
+            'author' => $author
         ]);
     }
 

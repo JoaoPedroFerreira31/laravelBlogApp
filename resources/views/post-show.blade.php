@@ -89,16 +89,30 @@
                         </div>
 
                         <hr class="mt-1 text-gray-500 border-1">
+                        {{-- Add new comment --}}
+                        <div class="w-full my-2">
+                            <form @submit.prevent="saveCommentData(`${post.id}`)" class="flex items-center px-3 py-2 bg-white rounded-lg dark:bg-gray-700">
+                                <div class="inline-flex w-full overflow-hidden">
+                                    <span class="p-2"><img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="username" class="w-8 h-8 rounded-full"></span>
+                                    <input x-model="commentForm.comment" class="w-full border-none placeholder:text-sm placeholder:font-bold placeholder:text-gray-400" placeholder="Add your comment ..." type="text"></input>
+                                    <button type="submit" class="inline-flex items-center justify-center p-2 text-blue-600 cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                                        <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
+                                        <span class="sr-only">Send message</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <hr class="mt-1 text-gray-500 border-1">
 
                         {{-- Comments --}}
-                        <template x-if="post?.comments.length === 0 && !post?.comments" :key="comment.id">
+                        <template x-if="post?.comments.length === 0 || !post?.comments">
                             <div class="w-full mt-2">
                                 <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
-                                    <div class="inline-flex justify-between w-full text-sm">
+                                    <div class="inline-flex justify-between w-full">
                                         <div class="inline-flex">
-                                            <span x-text="'No comments found"></span>
+                                            <span class="text-xs font-semibold text-gray-500" x-text="'No comments found'"></span>
                                         </div>
-                                        <span x-text="date_readable(comment?.created_at)"></span>
                                     </div>
                                 </div>
                             </div>
@@ -117,19 +131,6 @@
                             </div>
                         </template>
 
-                        {{-- Add Comments --}}
-                        {{-- <div class="w-full mt-2">
-                            <form @submit.prevent="saveCommentData(`${post.id}`)">
-                                <label for="chat" class="sr-only">Add a comment...</label>
-                                <div class="flex items-center px-3 py-1 rounded-lg bg-gray-50 dark:bg-gray-700">
-                                    <textarea id="chat" rows="1" class="block w-full p-2 mx-4 text-sm text-gray-900 bg-white border border-gray-300 rounded-lg outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Add a comment..." x-model="commentForm.comment"></textarea>
-                                        <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
-                                        <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
-                                        <span class="sr-only">Send message</span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div> --}}
                     </div>
                 </div>
 
@@ -156,11 +157,12 @@
                 <div class="flex flex-wrap justify-center">
                     <div class="w-full max-w-lg p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div class="inline-flex items-center justify-between w-full">
-                            <div class="inline-flex items-center p-2 hover:opacity-80 hover:cursor-pointer" @click="navigateTo('/profile/'+post.author)">
+                            <div class="inline-flex items-center p-2 hover:opacity-80 hover:cursor-pointer" @click="navigateTo('/profile/'+post.author.id)">
                                 <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="post.authorName" class="w-8 h-8 mr-2 rounded-full">
                                 <h1 class="text-lg font-bold text-gray-900" x-text="post.authorName"></h1>
                             </div>
-                            {{-- <button type="button" @click.prevent="isCrudPostModalOpen = true" class="px-4 py-1 mt-2 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-300 hover:border-blue-300">Create new post</button> --}}
+                            <button type="button" x-text="authHasFollowedRequestProfileUser ? 'Pending' : (authIsFollowingProfileUser ? 'Unfollow' : 'Follow')" @click.prevent="toggleFollowUser(`${user.id}`)" class="inline-flex items-center px-6 py-1.5 mt-2 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -179,6 +181,8 @@
         return {
             ttp_tools: 'Options',
             isCrudPostModalOpen: false,
+            authHasFollowedRequestProfileUser: false,
+            authIsFollowingProfileUser: false,
             isPostEditing: false,
             editPostID: null,
             postForm: {
@@ -196,7 +200,13 @@
             init() {
                 try {
                     this.post = backendRecord;
+                    this.authHasFollowedRequestProfileUser = "{{ Auth::user()->hasRequestedToFollow($author) }}";
+                    this.authIsFollowingProfileUser = "{{ Auth::user()->isFollowing($author) }}";
+
                     console.log('backendRecord', this.post);
+                    console.log(username+' has request to follow '+this.post.authorName+'?', this.authHasFollowedRequestProfileUser ? 'Yes' : 'No');
+                    console.log(username+' is following '+this.post.authorName+'?', this.authIsFollowingProfileUser ? 'Yes' : 'No');
+
                 } catch (err) {
                     console.log(err);
                 }
@@ -240,6 +250,18 @@
                 this.postToDelete = record_id;
                 this.isDeletePopUpOpen = true;
             },
+            toggleFollowUser(record_id) {
+                axios.post('/api/users/toggle-follow-user/'+record_id)
+                .then(response => {
+                    this.fetchData();
+                    this.authHasFollowedRequestProfileUser = !this.authHasFollowedRequestProfileUser;
+                    if(this.authIsFollowingProfileUser) {
+                        this.authIsFollowingProfileUser = !this.authIsFollowingProfileUser;
+                        this.authHasFollowedRequestProfileUser = !this.authHasFollowedRequestProfileUser;
+                    }
+                })
+                .catch((error) => console.log(error.message));
+            },
             filter(type) {
                 switch(type) {
                     case 'all_posts':
@@ -275,11 +297,9 @@
                 this.commentForm.comment = null;
             },
             saveCommentData(record_id) {
-                let post = this.posts.find(post => post.id === record_id);
+                this.commentForm.post_id = record_id;
 
-                this.commentForm.post_id = post.id;
-
-                axios.post('api/comments',this.commentForm)
+                axios.post('/api/comments',this.commentForm)
                 .then(response => {
                     this.clearCommentsForm();
                     this.fetchData();
