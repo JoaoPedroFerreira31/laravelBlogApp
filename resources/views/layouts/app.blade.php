@@ -39,7 +39,6 @@
     function dataApp() {
         return {
             init() {
-
             },
             navigateTo(link) {
                 window.location.assign(link);

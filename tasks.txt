@@ -1,7 +1,15 @@
 DONE - Follow system
-- Posts show page
+DONE - Posts show page
 - Notification system
-- Dashboard design update
+DONE - Dashboard design update
 - Explore page
 - Update pending requests section
 - Create Edit/Delete comments section inside profile
+- Controllers update
+- Search bar
+- Language system
+- Create profile settings (add photo, description, nationality, site, etc...)
+- Make comment modal (Dashboard)
+DONE - Make comment section (Post show)
+- Posts with photo
+- Like system

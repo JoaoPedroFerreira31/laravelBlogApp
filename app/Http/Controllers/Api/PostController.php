@@ -25,9 +25,25 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::latest()->with('comments', 'comments.user')->get();
+        $posts = Post::latest()->withCount('comments')->get();
 
         return new PostCollection($posts);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Post $post
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, Post $post)
+    {
+        $post->load(
+            'author',
+            'comments',
+            'comments.user'
+        )->loadCount('comments');
+
+        return new PostResource($post);
     }
 
     /**
@@ -68,13 +84,24 @@ class PostController extends Controller
      * @param \App\Models\Post $post
      * @return \Illuminate\Http\Response
      */
-    public function userFriendsPosts()
+    public function fetchUserPosts()
+    {
+        $posts = Post::where('author', Auth::user()->id)->with('comments', 'comments.user')->withCount('comments')->get();
+
+        return new PostCollection($posts);
+    }
+
+    /**
+     * @param \App\Models\Post $post
+     * @return \Illuminate\Http\Response
+     */
+    public function fetchUserFriendsPosts()
     {
         $user = Auth::user();
         $user->load('followings');
         $friendsID = $user->followings->pluck('id');
-        // logger($friendsID);
-        $posts = Post::whereIn('author', $friendsID)->with('comments', 'comments.user')->get();
+
+        $posts = Post::whereIn('author', $friendsID)->with('comments', 'comments.user')->withCount('comments')->get();
 
         return new PostCollection($posts);
     }
@@ -96,43 +123,6 @@ class PostController extends Controller
             return abort(403, 'You are not allowed to delete this post');
         }
     }
-
-    // /**
-    //  * @param \Illuminate\Http\Request $request
-    //  * @param \App\Models\Game $game
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function show(Request $request, Game $game)
-    // {
-    //     $this->authorize('view', $game);
-
-    //     $game->load(
-    //         'team:id,name,acronym,league_id,formation_id',
-    //         'team.players:id,name,short_name,photo',
-    //         //'team.players.latestStatus',
-    //         'team.league.leagueType',
-    //         'team.formation',
-    //         'team.statistics',
-    //         'team.pitches:id,name',
-    //         'opponent:id,name,acronym,logo',
-    //         'opponent.pitches:id,name',
-    //         'pitch:id,name',
-    //         'season:id,name,acronym',
-    //         'gameFiles',
-    //         'finalResult',
-    //         'gameAttendances',
-    //         'gameAttendances.game',
-    //         'gameAttendances.player:id,name,short_name,photo',
-    //         'gameStatistics',
-    //         'gameStatistics.statistic:id,name,short_name,image',
-    //         'gameStatistics.player:id,name,short_name,photo',
-    //     )->loadCount('gameFiles', 'gameAttendances');
-
-    //     $game->gameAttendances->each->append('playerName');
-    //     $game->append('teamName');
-
-    //     return new GameResource($game);
-    // }
 
     // public function update_game_formation(Request $request ,Game $game) {
 

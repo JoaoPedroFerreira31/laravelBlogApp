@@ -46,6 +46,8 @@ class UserController extends Controller
             'pendingRequests'
         )->loadCount('followers', 'followings', 'pendingRequests', 'posts');
 
+        $user->posts->loadCount('comments');
+
         return new UserResource($user);
     }
 
