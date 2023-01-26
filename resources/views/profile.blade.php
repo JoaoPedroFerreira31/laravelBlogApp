@@ -113,10 +113,10 @@
 
                 {{-- Posts --}}
                 <template x-for="post in user.posts" :key="post.id">
-                    <div @click="navigateTo('/posts/'+post.id)" class="flex justify-center w-full">
+                    <div class="flex justify-center w-full">
                         <div class="w-full px-6 py-4 mt-3 overflow-hidden bg-white shadow-sm sm:rounded-lg hover:shadow-xl hover:cursor-pointer">
                             <div class="inline-flex justify-between w-full">
-                                <div class="w-8/12">
+                                <div @click="navigateTo('/posts/'+post.id)" class="w-8/12">
                                     <h1 class="font-bold text-gray-900" x-text="post.title"></h1>
                                 </div>
                                 <div class="flex-col w-4/12 text-right">
@@ -133,12 +133,12 @@
                                                 <ul class="py-1 text-gray-800" aria-labelledby="dropdownButton">
                                                     <li>
                                                         <span @click.prevent="editPost(`${post.id}`)" class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                            Edit post
+                                                            @lang('edit')
                                                         </span>
                                                     </li>
                                                     <li>
                                                         <span @click.prevent="deletePost(`${post.id}`)" class="block px-4 py-2 text-sm text-red-600 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                            Delete post
+                                                            @lang('delete')
                                                         </span>
                                                     </li>
                                                 </ul>
@@ -147,7 +147,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="h-20 mt-2 overflow-hidden">
+                            <div @click="navigateTo('/posts/'+post.id)" class="h-20 mt-2 overflow-hidden">
                                 <p class="text-sm text-gray-500" x-text="post?.content"></p>
                             </div>
                             <div :class="post.created_at !== post.updated_at ? 'flex justify-between w-full mt-2' : 'flex justify-end w-full mt-2'">
