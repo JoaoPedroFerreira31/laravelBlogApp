@@ -43,7 +43,7 @@
                         <x-dropdown-link :href="route('profile', Auth::user())">
                             <span class="inline-flex items-center">
                                 <x-fas-user-alt class="w-3 h-3 mr-3 text-gray-500 hover:text-gray-300"/>
-                                <span>{{ __('Profile') }}</span>
+                                <span>{{ __('profile') }}</span>
                             </span>
                         </x-dropdown-link>
                         <!-- Authentication -->
@@ -55,7 +55,7 @@
                                                 this.closest('form').submit();">
                                 <span class="inline-flex items-center">
                                     <x-fas-sign-out-alt class="w-4 h-4 mr-3 text-gray-500 hover:text-gray-300"/>
-                                    <span>{{ __('Log Out') }}</span>
+                                    <span>{{ __('logout') }}</span>
                                 </span>
                             </x-dropdown-link>
                         </form>
@@ -107,10 +107,10 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('homepage') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('profile', Auth::user())" :active="request()->routeIs('profile')">
-                {{ __('Profile') }}
+                {{ __('profile') }}
             </x-responsive-nav-link>
         </div>
 
@@ -124,7 +124,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('logout') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
@@ -134,8 +134,8 @@
 <script>
     function dataNav() {
         return {
-            ttp_dashboard: 'Dashboard',
-            ttp_profile: 'Profile',
+            ttp_dashboard: Lang.get('strings.homepage'),
+            ttp_profile: Lang.get('strings.profile'),
             open: false,
             menuToggle: false,
             init() {

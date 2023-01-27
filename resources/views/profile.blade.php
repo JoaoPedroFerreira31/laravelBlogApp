@@ -11,17 +11,17 @@
                         <div class="flex flex-wrap justify-center w-full mb-2">
                             <img class="w-20 h-20 rounded-full" src="{{ asset('images\placeholder.png') }}" alt="">
                         </div>
-                        <h1 class="font-bold text-center text-gray-900" x-text="user_id === user.id ? 'Welcome '+username : user.name"></h1>
+                        <h1 class="font-bold text-center text-gray-900" x-text="user_id === user.id ? Lang.get('strings.welcome')+ ' ' + username : user.name"></h1>
                         <div class="inline-flex justify-center w-full gap-x-2">
-                            <span class="text-sm font-bold"><span x-text="user.posts_count" class="mr-1"></span> Posts</span>
-                            <span class="text-sm font-bold"><span x-text="user.followers_count" class="mr-1"></span> Followers</span>
-                            <span class="text-sm font-bold"><span x-text="user.followings_count" class="mr-1"></span> Following</span>
+                            <span class="text-sm font-bold"><span x-text="user.posts_count" class="mr-1"></span> @lang('posts')</span>
+                            <span class="text-sm font-bold"><span x-text="user.followers_count" class="mr-1"></span> @lang('followers')</span>
+                            <span class="text-sm font-bold"><span x-text="user.followings_count" class="mr-1"></span> @lang('followings')</span>
                         </div>
 
                         {{-- Follow btn --}}
                         <template x-if="user_id !== user.id">
                             <div class="flex justify-center w-full mt-1">
-                                <button type="button" x-text="authHasFollowedRequestProfileUser ? 'Pending' : (authIsFollowingProfileUser ? 'Unfollow' : 'Follow')" @click.prevent="toggleFollowUser(`${user.id}`)" class="inline-flex items-center px-6 py-1.5 mt-2 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
+                                <button type="button" x-text="authHasFollowedRequestProfileUser ? Lang.get('strings.pending') : (authIsFollowingProfileUser ? Lang.get('strings.unfollow') : Lang.get('strings.follow'))" @click.prevent="toggleFollowUser(`${user.id}`)" class="inline-flex items-center px-6 py-1.5 mt-2 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
                                 </button>
                             </div>
                         </template>
@@ -33,7 +33,7 @@
                     <div class="flex flex-col w-full">
                         <div class="flex flex-wrap justify-between">
                             <div class="flex flex-col">
-                                <h1 class="text-lg font-bold text-gray-900">Followers (<span class="text-md" x-text="user.followers_count"></span>)</h1>
+                                <h1 class="text-lg font-bold text-gray-900">@lang('followers') (<span class="text-md" x-text="user.followers_count"></span>)</h1>
                                 <span x-show="user.pending_requests_count > 0 && user_id === user.id" @click.prevent="isShowingPendingRequests = !isShowingPendingRequests" type="button" class="text-xs text-gray-500 hover:cursor-pointer hover:text-gray-300"><span x-text="user.pending_requests_count"></span> Pending requests</span>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                     <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="follower.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
                                     <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+follower.id)" x-text="follower.name"></h6>
                                 </div>
-                                <button type="button" x-text="'Remove'" x-show="user_id === user.id" @click.prevent="removeFollower(`${follower.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
+                                <button type="button" x-text="Lang.get('strings.remove')" x-show="user_id === user.id" @click.prevent="removeFollower(`${follower.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
                                 </button>
                             </div>
                         </template>
@@ -67,7 +67,7 @@
                     <div class="flex flex-col w-full">
                         <div class="flex flex-wrap justify-between">
                             <div class="inline-flex">
-                                <h1 class="text-lg font-bold text-gray-900">Followings (<span class="text-md" x-text="user.followings_count"></span>)</h1>
+                                <h1 class="text-lg font-bold text-gray-900">@lang('followings') (<span class="text-md" x-text="user.followings_count"></span>)</h1>
                             </div>
                         </div>
                         <template x-for="following in user.followings">
@@ -76,7 +76,7 @@
                                     <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="following.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
                                     <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+following.id)" x-text="following.name"></h6>
                                 </div>
-                                <button type="button" x-text="'Unfollow'" x-show="user_id === user.id" @click.prevent="toggleFollowUser(`${following.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" > --}}
+                                <button type="button" x-text="Lang.get('strings.unfollow')" x-show="user_id === user.id" @click.prevent="toggleFollowUser(`${following.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" > --}}
                                 </button>
                             </div>
                         </template>
@@ -89,7 +89,7 @@
             <section class="lg:col-span-2">
                 <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="flex flex-col w-full">
-                        <h1 class="font-bold text-center text-gray-900">This is <span class="" x-text="user.name"></span> profile page</h1>
+                        <h1 class="font-bold text-center text-gray-900">This is <span x-text="user.name"></span> profile page</h1>
                         <span x-show="user_id === user.id" class="text-sm text-center text-gray-500">Aqui nesta pagina pode gerir todo o conteudo relacionado com o seu perfil</sp>
                     </div>
                 </div>
@@ -133,12 +133,12 @@
                                                 <ul class="py-1 text-gray-800" aria-labelledby="dropdownButton">
                                                     <li>
                                                         <span @click.prevent="editPost(`${post.id}`)" class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                            @lang('edit')
+                                                            @lang('edit_post')
                                                         </span>
                                                     </li>
                                                     <li>
                                                         <span @click.prevent="deletePost(`${post.id}`)" class="block px-4 py-2 text-sm text-red-600 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                            @lang('delete')
+                                                            @lang('delete_post')
                                                         </span>
                                                     </li>
                                                 </ul>
@@ -151,8 +151,8 @@
                                 <p class="text-sm text-gray-500" x-text="post?.content"></p>
                             </div>
                             <div :class="post.created_at !== post.updated_at ? 'flex justify-between w-full mt-2' : 'flex justify-end w-full mt-2'">
-                                <span class="text-xs text-gray-500 whitespace-nowrap" x-text="'Publicado em: ' + date_short(post.created_at)"></span>
-                                <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*Editado</span>
+                                <span class="text-xs text-gray-500 whitespace-nowrap" x-text="Lang.get('strings.published_at')+': '+ date_short(post.created_at)"></span>
+                                <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*@lang('edited')</span>
                             </div>
                             <hr class="mt-1 text-gray-500 border-1">
                             {{-- Post buttons --}}
@@ -179,7 +179,7 @@
 
     function profileData() {
         return {
-            ttp_tools: 'Options',
+            ttp_tools: Lang.get('strings.options'),
             authHasFollowedRequestProfileUser: null,
             authIsFollowingProfileUser: null,
             isShowingPendingRequests: false,

@@ -19,10 +19,10 @@
 
         <!-- Scripts -->
         <script src="{{ URL::asset('messages.js') }}" ></script>
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ mix('js/app.js') }}" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/awesome-notifications/3.1.1/modern.min.js" integrity="sha512-PjlyZT7z5pyhvudKh6rGlxvHKGow4MEDGVehJtjZTjrVvXlpuMt2wmna/PnUnNSWYsgqXuzM86tu9v4+rNHsSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js" integrity="sha512-G3jAqT2eM4MMkLMyQR5YBhvN5/Da3IG6kqgYqU9zlIH4+2a+GuMdLb5Kpxy6ItMdCfgaKlo2XFhI0dHtMJjoRw==" crossorigin="anonymous"></script>
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js" integrity="sha512-G3jAqT2eM4MMkLMyQR5YBhvN5/Da3IG6kqgYqU9zlIH4+2a+GuMdLb5Kpxy6ItMdCfgaKlo2XFhI0dHtMJjoRw==" crossorigin="anonymous"></script> --}}
 
     </head>
     <body class="font-sans antialiased" x-data="dataApp()" x-cloak>

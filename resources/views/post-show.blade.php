@@ -9,7 +9,7 @@
                     <div class="inline-flex justify-between w-full max-w-lg p-3 mt-2 bg-white rounded-md gap-x-2">
                         <div class="inline-flex items-center">
                             <x-fas-arrow-left @click="navigateTo('/dashboard')" class="w-4 h-4 mr-2 text-gray-900 hover:opacity-50 hover:cursor-pointer"/>
-                            <h1 class="text-lg font-bold">Post</h1>
+                            <h1 class="text-lg font-bold">@lang('post')</h1>
                         </div>
                     </div>
                 </div>
