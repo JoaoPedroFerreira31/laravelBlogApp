@@ -8,8 +8,11 @@ DONE - Dashboard design update
 - Controllers update
 - Search bar
 DONE - Language system
-- Create profile settings (add photo, description, nationality, site, etc...)
+- Create profile settings page (add photo, description, nationality, site, etc...)
 - Make comment modal (Dashboard)
 DONE - Make comment section (Post show)
 - Posts with photo
 - Like system
+- Add share post system
+- Chat system
+
