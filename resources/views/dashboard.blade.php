@@ -7,11 +7,11 @@
                 {{-- Filters --}}
                 <div class="flex w-full sm:justify-center lg:justify-end">
                     <div class="inline-flex justify-between w-full max-w-lg p-3 mt-2 bg-white rounded-md gap-x-2">
-                        <h1 class="text-lg font-bold">Homepage</h1>
+                        <h1 class="text-lg font-bold">@lang('homepage')</h1>
                         <div class="inline-flex gap-2">
-                            <div :class="filterName === 'all_posts' ? 'px-4 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none' : 'px-4 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-400 hover:shadow-none'"  @click.prevent="filter('all_posts')"  x-text="'All posts'"></div>
-                            <div :class="filterName === 'friends_posts' ? 'px-4 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none' : 'px-4 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-400 hover:shadow-none'"  @click.prevent="filter('friends_posts')"  x-text="'Friends posts'"></div>
-                            <div :class="filterName === 'user_posts' ? 'px-4 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none' : 'px-4 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-400 hover:shadow-none'"  @click.prevent="filter('user_posts')" x-text="'My posts'"></div>
+                            <div :class="filterName === 'all_posts' ? 'px-4 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none whitespace-nowrap' : 'px-4 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-400 hover:shadow-none'"  @click.prevent="filter('all_posts')"  x-text="Lang.get('strings.all_posts')"></div>
+                            <div :class="filterName === 'friends_posts' ? 'px-4 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none whitespace-nowrap' : 'px-4 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-400 hover:shadow-none'"  @click.prevent="filter('friends_posts')"  x-text="Lang.get('strings.friends_posts')"></div>
+                            <div :class="filterName === 'user_posts' ? 'px-4 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none whitespace-nowrap' : 'px-4 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-400 hover:shadow-none'"  @click.prevent="filter('user_posts')" x-text="Lang.get('strings.my_posts')"></div>
                         </div>
                     </div>
                 </div>
@@ -57,12 +57,12 @@
                                                 <ul class="py-1 text-gray-800" aria-labelledby="dropdownButton">
                                                     <li>
                                                         <span @click.prevent="editPost(`${post.id}`)" class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                            Edit post
+                                                            @lang('edit_post')
                                                         </span>
                                                     </li>
                                                     <li>
                                                         <span @click.prevent="deletePost(`${post.id}`)" class="block px-4 py-2 text-sm text-red-600 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                            Delete post
+                                                            @lang('delete_post')
                                                         </span>
                                                     </li>
                                                 </ul>
@@ -75,8 +75,8 @@
                                 <p class="text-sm text-gray-500" x-text="post?.content"></p>
                             </div>
                             <div @click="navigateTo('/posts/'+post.id)" :class="post.created_at !== post.updated_at ? 'flex justify-between w-full mt-2' : 'flex justify-end w-full mt-2'">
-                                <span class="text-xs text-gray-500 whitespace-nowrap" x-text="'Publicado em: ' + date_short(post.created_at)"></span>
-                                <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*Editado</span>
+                                <span class="text-xs text-gray-500 whitespace-nowrap" x-text=" Lang.get('strings.published_at') +':  '+ date_short(post.created_at)"></span>
+                                <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*@lang('edited')</span>
                             </div>
 
                             <hr class="mt-1 text-gray-500 border-1">
@@ -132,7 +132,7 @@
                 {{-- Search --}}
                 <div class="relative w-full pt-2 mx-auto text-gray-600">
                     <input class="w-full h-10 px-5 pr-16 text-sm bg-white border-none rounded-lg focus:outline-none"
-                      type="search" name="search" placeholder="Search">
+                      type="search" name="search" :placeholder="Lang.get('strings.search')">
                     <button type="submit" class="absolute top-0 right-0 mt-5 mr-4">
                       <svg class="w-4 h-4 text-gray-600 fill-current" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
@@ -148,8 +148,8 @@
                 <div class="flex flex-wrap justify-center">
                     <div class="w-full max-w-lg p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div class="inline-flex items-center justify-between w-full">
-                            <h1 class="text-lg font-bold text-gray-900 ">Welcome <span class="" x-text="username"></span></h1>
-                            <button type="button" @click.prevent="isCrudPostModalOpen = true" class="px-4 py-1 mt-2 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-300 hover:border-blue-300">Create new post</button>
+                            <h1 class="text-lg font-bold text-gray-900 ">@lang('welcome') <span class="" x-text="username"></span></h1>
+                            <button type="button" @click.prevent="isCrudPostModalOpen = true" class="px-4 py-1 mt-2 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-300 hover:border-blue-300">@lang('create_new_post')</button>
                         </div>
                     </div>
                 </div>
@@ -168,7 +168,7 @@
 
     function dashboardData() {
         return {
-            ttp_tools: 'Options',
+            ttp_tools: Lang.get('strings.options'),
             filterName: 'all_posts',
             isCrudPostModalOpen: false,
             isPostEditing: false,

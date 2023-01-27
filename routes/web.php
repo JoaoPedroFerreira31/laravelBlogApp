@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\LanguageController;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Post;
@@ -24,8 +25,13 @@ Route::get('/', function () {
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    /* Language switch */
+    Route::get('lang/{lang}', [LanguageController::class, 'switch_lang'])->name('lang.switch');
+
+    // Route resources
     Route::resource('/posts', PostController::class);
 
+    // Dashboard
     Route::get('/dashboard', function () {
 
         $user = Auth::user();
@@ -44,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     })->name('dashboard');
 
+    // Profile
     Route::get('/profile/{user}', function (Request $request) {
         $user = User::find($request['user']);
 

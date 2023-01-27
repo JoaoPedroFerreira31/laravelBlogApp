@@ -7,7 +7,7 @@ DONE - Dashboard design update
 - Create Edit/Delete comments section inside profile
 - Controllers update
 - Search bar
-- Language system
+DONE - Language system
 - Create profile settings (add photo, description, nationality, site, etc...)
 - Make comment modal (Dashboard)
 DONE - Make comment section (Post show)
