@@ -22,5 +22,13 @@
     "pending": "Pending",
     "profile": "Profile",
     "post": "Post",
-    "logout": "Log out"
+    "logout": "Log out",
+    "publish": "Publish",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "close": "Close",
+    "post_title": "Post title",
+    "post_content": "Post content",
+    "insert_title": "Insert title",
+    "write_your_post": "Write your post"
 }

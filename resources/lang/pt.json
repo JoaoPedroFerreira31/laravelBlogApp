@@ -22,5 +22,13 @@
     "pending": "Pendente",
     "profile": "Perfil",
     "post": "Publicação",
-    "logout": "Sair"
+    "logout": "Sair",
+    "publish": "Publicar",
+    "edit": "Editar",
+    "cancel": "Cancelar",
+    "close": "Fechar",
+    "post_title": "Titulo da publicação",
+    "post_content": "Conteudo da publicação",
+    "insert_title": "Insira o titulo da publicação",
+    "write_your_post": "Escreva a sua publicação"
 }

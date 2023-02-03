@@ -9,7 +9,7 @@ DONE - Dashboard design update
 - Update Search bar (Modal soccer 2022)
 DONE - Language system
 - Create profile settings page (add photo, description, nationality, site, etc...)
-- Make comment modal (Dashboard)
+WIP - Make comment modal (Dashboard)
 DONE - Make comment section (Post show)
 - Posts with photo
 - Like system

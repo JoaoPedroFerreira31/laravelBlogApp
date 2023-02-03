@@ -84,7 +84,7 @@
                             {{-- Post buttons --}}
                             <div class="flex flex-wrap justify-start w-full gap-3 mt-2">
                                 <span class="inline-flex items-center">
-                                    <x-fas-comment class="w-4 h-4 text-gray-300 hover:text-gray-500"/>
+                                    <x-fas-comment @click.prevent="showCommentModal(`${post.id}`)" class="w-4 h-4 text-gray-300 hover:text-gray-500"/>
                                     <span class="ml-1 text-sm text-gray-400" x-text="post.comments_count">0</span>
                                 </span>
                                 <span class="inline-flex items-center">
@@ -158,6 +158,7 @@
         </div>
 
         <x-modals.crud-post/>
+        <x-modals.create-comment/>
         <x-modals.delete-pop-up/>
     </div>
 </x-app-layout>
@@ -171,6 +172,7 @@
             ttp_tools: Lang.get('strings.options'),
             filterName: 'all_posts',
             isCrudPostModalOpen: false,
+            isCommentModalOpen: false,
             isPostEditing: false,
             editPostID: null,
             isLoading: true,
@@ -309,6 +311,12 @@
                         })
                         .catch((error) => console.log(error.message));
                 }
+            },
+            selectedPost: null,
+            showCommentModal(record_id) {
+                this.selectedPost = this.posts.find(post => record_id === post.id);
+                console.log('post selected', this.selectedPost);
+                this.isCommentModalOpen = true;
             },
             // clearCommentsForm() {
             //     this.commentForm.post_id = null;
