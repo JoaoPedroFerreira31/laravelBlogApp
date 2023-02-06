@@ -299,13 +299,17 @@
             saveCommentData(record_id) {
                 this.commentForm.post_id = record_id;
 
-                axios.post('/api/comments',this.commentForm)
-                .then(response => {
-                    this.clearCommentsForm();
-                    this.fetchData();
-                }).catch(error => {
-                    console.log(error.message)
-                });
+                if(this.commentForm.comment !== null) {
+                    axios.post('/api/comments',this.commentForm)
+                    .then(response => {
+                        this.clearCommentsForm();
+                        this.fetchData();
+                    }).catch(error => {
+                        console.log(error.message)
+                    });
+                }
+
+
 
             },
         }
