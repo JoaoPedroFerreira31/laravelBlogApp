@@ -30,5 +30,14 @@
     "post_title": "Post title",
     "post_content": "Post content",
     "insert_title": "Insert title",
-    "write_your_post": "Write your post"
+    "write_your_post": "Write your post",
+    "write_your_comment": "Write your comment",
+    "reply": "Reply",
+    "comment": "Comment",
+    "post_updated_successfully": "Post updated successfully!",
+    "post_created_successfully": "Post created successfully!",
+    "comment_created_successfully": "Comment created successfully!",
+    "comment_updated_successfully": "Comment updated successfully!",
+    "read_more": "Read more",
+    "no_comments_found": "No comments found"
 }

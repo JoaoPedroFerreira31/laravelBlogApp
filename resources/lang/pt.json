@@ -18,7 +18,7 @@
     "unfollow": "Não seguir",
     "follow": "Seguir",
     "posts": "Publicações",
-    "remove": "Remove",
+    "remove": "Remover",
     "pending": "Pendente",
     "profile": "Perfil",
     "post": "Publicação",
@@ -30,5 +30,14 @@
     "post_title": "Titulo da publicação",
     "post_content": "Conteudo da publicação",
     "insert_title": "Insira o titulo da publicação",
-    "write_your_post": "Escreva a sua publicação"
+    "write_your_post": "Escreva a sua publicação",
+    "write_your_comment": "Escreva o seu publicação",
+    "reply": "Responder",
+    "comment": "Comentário",
+    "post_updated_successfully": "Publicação criada com sucesso!",
+    "post_created_successfully": "publicação editada com sucesso!",
+    "comment_created_successfully": "Comentário criado com sucesso!",
+    "comment_updated_successfully": "Comentário atualizado com sucesso!",
+    "read_more": "Ler mais",
+    "no_comments_found": "Comentários não encontrados"
 }

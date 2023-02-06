@@ -75,14 +75,14 @@
             init() {
 
                 this.$watch('isCrudPostModalOpen', (value) => {
-                    if (!this.isCrudPostModalOpen) {
-                        this.clearPostForm();
-                    } else {
+                    // if (!this.isCrudPostModalOpen) {
+                    //     // this.clearPostForm();
+                    // } else {
 
-                    }
+                    // }
                 })
             },
-            clearPostForm(){
+            clearPostForm() {
                 this.postForm.title = null;
                 this.postForm.content = null;
                 this.postForm.author = user_id;
@@ -99,7 +99,7 @@
                         data: this.postForm,
                     }).then((response) => {
                         this.isCrudPostModalOpen = false;
-                        notyf.success(this.isPostEditing ? 'Updated successfully!' : 'Added successfully!');
+                        notyf.success(this.isPostEditing ? Lang.get('post_updated_successfully') : Lang.get('post_added_successfully') );
                         this.isPostEditing = false;
                         this.isSaving = false;
                         this.fetchData();

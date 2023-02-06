@@ -72,56 +72,31 @@
                                 </div>
                             </div>
                             <div class="h-20 mt-2 overflow-hidden" @click="navigateTo('/posts/'+post.id)">
-                                <p class="text-sm text-gray-500" x-text="post?.content"></p>
+                                <p class="text-sm text-gray-500 line-clamp-4" x-text="post?.content"></p>
                             </div>
                             <div @click="navigateTo('/posts/'+post.id)" :class="post.created_at !== post.updated_at ? 'flex justify-between w-full mt-2' : 'flex justify-end w-full mt-2'">
                                 <span class="text-xs text-gray-500 whitespace-nowrap" x-text=" Lang.get('strings.published_at') +':  '+ date_short(post.created_at)"></span>
-                                <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*@lang('edited')</span>
+                                <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*@lang('edited')*</span>
                             </div>
 
                             <hr class="mt-1 text-gray-500 border-1">
 
                             {{-- Post buttons --}}
-                            <div class="flex flex-wrap justify-start w-full gap-3 mt-2">
-                                <span class="inline-flex items-center">
-                                    <x-fas-comment @click.prevent="showCommentModal(`${post.id}`)" class="w-4 h-4 text-gray-300 hover:text-gray-500"/>
-                                    <span class="ml-1 text-sm text-gray-400" x-text="post.comments_count">0</span>
-                                </span>
-                                <span class="inline-flex items-center">
-                                    <x-fas-heart class="w-4 h-4 text-gray-300 hover:text-gray-500"/>
-                                    <span class="ml-1 text-sm text-gray-400" >0</span>
+                            <div class="flex flex-wrap justify-between w-full gap-3 mt-2 items-center">
+                                <div class="inline-flex gap-2">
+                                    <span class="inline-flex items-center">
+                                        <x-fas-comment @click.prevent="showCommentModal(`${post.id}`)" class="w-4 h-4 text-gray-300 hover:text-gray-500"/>
+                                        <span class="ml-1 text-sm text-gray-400" x-text="post.comments_count"></span>
+                                    </span>
+                                    <span class="inline-flex items-center">
+                                        <x-fas-heart class="w-4 h-4 text-gray-300 hover:text-gray-500"/>
+                                        <span class="ml-1 text-sm text-gray-400">0</span>
+                                    </span>
+                                </div>
+                                <span class="text-sm text-gray-500 hover:text-gray-300">
+                                    <a  @click="navigateTo('/posts/'+post.id)" >@lang('read_more')</a>
                                 </span>
                             </div>
-
-                            {{-- Comments --}}
-                            {{-- <template x-for="comment in post.comments" :key="comment.id">
-                                <div class="w-full mt-2">
-                                    <div class="flex items-center px-3 py-1 rounded-lg bg-gray-50 dark:bg-gray-700">
-                                        <div class="inline-flex justify-between w-full text-xs">
-                                            <div class="inline-flex">
-                                                <span class="mr-2 font-bold" x-text="comment.user.name"></span>
-                                                <span x-text="comment?.comment"></span>
-                                            </div>
-                                            <span x-text="date_readable(comment?.created_at)"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </template> --}}
-
-                            {{-- Add Comments --}}
-                            {{-- <div class="w-full mt-2">
-                                <form @submit.prevent="saveCommentData(`${post.id}`)">
-                                    <label for="chat" class="sr-only">Add a comment...</label>
-                                    <div class="flex items-center px-3 py-1 rounded-lg bg-gray-50 dark:bg-gray-700">
-                                        <textarea id="chat" rows="1" class="block w-full p-2 mx-4 text-sm text-gray-900 bg-white border border-gray-300 rounded-lg outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Add a comment..." x-model="commentForm.comment"></textarea>
-                                            <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
-                                            <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
-                                            <span class="sr-only">Send message</span>
-                                        </button>
-                                    </div>
-                                </form>
-                            </div> --}}
-
                         </div>
                     </div>
                 </template>
@@ -181,11 +156,11 @@
                 content: null,
                 author: user_id,
             },
-            // commentForm: {
-            //     post_id: null,
-            //     user_id: user_id,
-            //     comment: null,
-            // },
+            commentForm: {
+                post_id: null,
+                user_id: user_id,
+                comment: null,
+            },
             posts: [],
             userPosts: [],
             friendsPosts: [],
@@ -318,25 +293,6 @@
                 console.log('post selected', this.selectedPost);
                 this.isCommentModalOpen = true;
             },
-            // clearCommentsForm() {
-            //     this.commentForm.post_id = null;
-            //     this.commentForm.user_id = user_id;
-            //     this.commentForm.comment = null;
-            // },
-            // saveCommentData(record_id) {
-            //     let post = this.posts.find(post => post.id === record_id);
-
-            //     this.commentForm.post_id = post.id;
-
-            //     axios.post('api/comments',this.commentForm)
-            //     .then(response => {
-            //         this.clearCommentsForm();
-            //         this.fetchData();
-            //     }).catch(error => {
-            //         console.log(error.message)
-            //     });
-
-            // },
         }
     }
 </script>

@@ -40,7 +40,7 @@
                             </div>
                             <div class="flex-col w-4/12 text-right">
                                 <div class="inline-flex">
-                                    <a type="button" @click="navigateTo(`/profile/`+post.author)" class="text-sm text-gray-500 hover:cursor-pointer hover:text-gray-300" x-text="post.authorName"></a>
+                                    <a type="button" @click="navigateTo(`/profile/`+post.author)" class="text-sm text-gray-500 hover:cursor-pointer hover:text-gray-300" x-text="post?.authorName"></a>
                                     <x-dropdown align="rigth" width="48">
                                         <x-slot name="trigger">
                                             <button x-show="post.author === user_id" x-tooltip="ttp_tools" type="button" class="inline-flex items-center ml-1 text-sm font-light text-gray-500 hover:border-gray-300 focus:border-gray-300 hover:bg-gray-200">
@@ -52,12 +52,12 @@
                                             <ul class="py-1 text-gray-800" aria-labelledby="dropdownButton">
                                                 <li>
                                                     <span @click.prevent="editPost(`${post.id}`)" class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                        Edit post
+                                                        @lang('edit_post')
                                                     </span>
                                                 </li>
                                                 <li>
                                                     <span @click.prevent="deletePost(`${post.id}`)" class="block px-4 py-2 text-sm text-red-600 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                        Delete post
+                                                        @lang('delete_post')
                                                     </span>
                                                 </li>
                                             </ul>
@@ -70,8 +70,8 @@
                             <p class="text-gray-500" x-text="post?.content"></p>
                         </div>
                         <div :class="post.created_at !== post.updated_at ? 'flex justify-between w-full mt-2' : 'flex justify-end w-full mt-2'">
-                            <span class="text-xs text-gray-500 whitespace-nowrap" x-text="'Publicado em: ' + date_short(post.created_at)"></span>
-                            <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*Editado</span>
+                            <span class="text-xs text-gray-500 whitespace-nowrap" x-text="Lang.get('strings.published_at')+' '+ date_short(post.created_at)"></span>
+                            <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">@lang('edited')*</span>
                         </div>
 
                         <hr class="mt-1 text-gray-500 border-1">
@@ -84,7 +84,7 @@
                             </span>
                             <span class="inline-flex items-center">
                                 <x-fas-heart class="w-4 h-4 text-gray-300 hover:text-gray-500"/>
-                                <span class="ml-1 text-sm text-gray-400" >0</span>
+                                <span class="ml-1 text-sm text-gray-400">0</span>
                             </span>
                         </div>
 
@@ -94,10 +94,10 @@
                             <form @submit.prevent="saveCommentData(`${post.id}`)" class="flex items-center px-3 py-2 bg-white rounded-lg dark:bg-gray-700">
                                 <div class="inline-flex w-full overflow-hidden">
                                     <span class="p-2"><img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="username" class="w-8 h-8 rounded-full"></span>
-                                    <input x-model="commentForm.comment" class="w-full border-none placeholder:text-sm placeholder:font-bold placeholder:text-gray-400" placeholder="Add your comment ..." type="text"></input>
+                                    <input x-model="commentForm.comment" class="w-full border-none placeholder:text-sm placeholder:font-bold placeholder:text-gray-400" :placeholder="Lang.get('strings.write_your_comment')" type="text"></input>
                                     <button type="submit" class="inline-flex items-center justify-center p-2 text-blue-600 cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
                                         <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
-                                        <span class="sr-only">Send message</span>
+                                        <span class="sr-only">@lang('comment')</span>
                                     </button>
                                 </div>
                             </form>
@@ -111,7 +111,7 @@
                                 <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
                                     <div class="inline-flex justify-between w-full">
                                         <div class="inline-flex">
-                                            <span class="text-xs font-semibold text-gray-500" x-text="'No comments found'"></span>
+                                            <span class="text-xs font-semibold text-gray-500" x-text="Lang.get('strings.no_comments_found')"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@
                 {{-- Search --}}
                 <div class="relative w-full pt-2 mx-auto text-gray-600">
                     <input class="w-full h-10 px-5 pr-16 text-sm bg-white border-none rounded-lg focus:outline-none"
-                      type="search" name="search" placeholder="Search">
+                      type="search" name="search" :placeholder="Lang.get('strings.search')">
                     <button type="submit" class="absolute top-0 right-0 mt-5 mr-4">
                       <svg class="w-4 h-4 text-gray-600 fill-current" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
@@ -157,11 +157,11 @@
                 <div class="flex flex-wrap justify-center">
                     <div class="w-full max-w-lg p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div class="inline-flex items-center justify-between w-full">
-                            <div class="inline-flex items-center p-2 hover:opacity-80 hover:cursor-pointer" @click="navigateTo('/profile/'+post.author.id)">
+                            <div class="inline-flex items-center p-2 hover:cursor-pointer" @click="navigateTo('/profile/'+post.author.id)">
                                 <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="post.authorName" class="w-8 h-8 mr-2 rounded-full">
-                                <h1 class="text-lg font-bold text-gray-900" x-text="post.authorName"></h1>
+                                <h1 class="text-lg font-bold text-gray-900 hover:opacity-80" x-text="post.authorName"></h1>
                             </div>
-                            <button type="button" x-text="authHasFollowedRequestProfileUser ? 'Pending' : (authIsFollowingProfileUser ? 'Unfollow' : 'Follow')" @click.prevent="toggleFollowUser(`${user.id}`)" class="inline-flex items-center px-6 py-1.5 mt-2 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
+                            <button x-show="user_id !== post.author.id" type="button" x-text="authHasFollowedRequestProfileUser ? Lang.get('strings.pending') : (authIsFollowingProfileUser ? Lang.get('strings.unfollow') : Lang.get('strings.follow'))" @click.prevent="toggleFollowUser(`${user.id}`)" class="inline-flex items-center px-6 py-1.5 mt-2 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
                             </button>
                         </div>
                     </div>
