@@ -15,4 +15,5 @@ DONE - Make comment section (Post show)
 - Like system
 - Add share post system
 - Chat system
+- Make blade components (example: post component)
 

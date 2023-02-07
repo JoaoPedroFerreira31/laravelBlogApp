@@ -73,14 +73,6 @@
             haveErrors: false,
             errors: [],
             init() {
-
-                this.$watch('isCrudPostModalOpen', (value) => {
-                    // if (!this.isCrudPostModalOpen) {
-                    //     // this.clearPostForm();
-                    // } else {
-
-                    // }
-                })
             },
             clearPostForm() {
                 this.postForm.title = null;

@@ -213,7 +213,12 @@
 
                 // load data from localStorage
                 if (typeof Storage !== 'undefined') {
-
+                     //Post
+                     localForage.getItem('post-'+this.post.id)
+                    .then((value) => {
+                        this.post = value;
+                    })
+                    .catch((err) => { console.log(err) });
                 }
 
                 console.log(user_id);
@@ -297,9 +302,8 @@
                 this.commentForm.comment = null;
             },
             saveCommentData(record_id) {
-                this.commentForm.post_id = record_id;
-
                 if(this.commentForm.comment !== null) {
+                    this.commentForm.post_id = record_id;
                     axios.post('/api/comments',this.commentForm)
                     .then(response => {
                         this.clearCommentsForm();
@@ -308,9 +312,6 @@
                         console.log(error.message)
                     });
                 }
-
-
-
             },
         }
     }
