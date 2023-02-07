@@ -39,5 +39,6 @@
     "comment_created_successfully": "Comment created successfully!",
     "comment_updated_successfully": "Comment updated successfully!",
     "read_more": "Read more",
-    "no_comments_found": "No comments found"
+    "no_comments_found": "No comments found",
+    "profile_settings": "Profile settings"
 }

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div x-data="profileData()" class="mx-auto max-w-7xl sm:px-6 lg:px-8" x-cloak>
+    <div x-data="profileSettingsData()" class="mx-auto max-w-7xl sm:px-6 lg:px-8" x-cloak>
         <div class="grid w-full gap-2 mt-2 lg:grid-cols-3 sm:grid-cols-1">
 
             {{-- User information --}}
@@ -13,10 +13,6 @@
                         </div>
                         <div class="inline-flex items-center justify-center w-full">
                             <h1 class="mr-1 font-bold text-center text-gray-900" x-text="user_id === user.id ? Lang.get('strings.welcome')+ ' ' + username : user.name"></h1>
-                            <svg @click="navigateTo('/profile/'+user_id+'/settings')" x-tooltip="ttp_profile_settings" x-show="user_id === user.id" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:opacity-50 hover:cursor-pointer focus:ring-0">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.107-1.204l-.527-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
                         </div>
                         <div class="inline-flex justify-center w-full gap-x-2">
                             <span class="text-sm font-bold"><span x-text="user.posts_count" class="mr-1"></span> @lang('posts')</span>
@@ -35,7 +31,7 @@
                 </div>
 
                 {{-- Followers section --}}
-                <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                {{-- <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="flex flex-col w-full">
                         <div class="flex flex-wrap justify-between">
                             <div class="flex flex-col">
@@ -65,11 +61,11 @@
                             </div>
                         </template>
                     </div>
-                </div>
+                </div> --}}
 
 
                 {{-- Followings section --}}
-                <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                {{-- <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="flex flex-col w-full">
                         <div class="flex flex-wrap justify-between">
                             <div class="inline-flex">
@@ -82,123 +78,91 @@
                                     <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="following.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
                                     <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+following.id)" x-text="following.name"></h6>
                                 </div>
-                                <button type="button" x-text="Lang.get('strings.unfollow')" x-show="user_id === user.id" @click.prevent="toggleFollowUser(`${following.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" > --}}
+                                <button type="button" x-text="Lang.get('strings.unfollow')" x-show="user_id === user.id" @click.prevent="toggleFollowUser(`${following.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
                                 </button>
                             </div>
                         </template>
                     </div>
-                </div>
+                </div> --}}
 
             </section>
 
             {{-- Page content --}}
             <section class="lg:col-span-2">
-                {{-- Loading placeholder --}}
-                <div x-show="isLoading" class="p-6 mx-auto border rounded-md shadow">
-                    <div class="flex space-x-4 animate-pulse">
-                        <div class="w-10 h-10 rounded-full bg-slate-300"></div>
-                        <div class="flex-1 py-1 space-y-6">
-                            <div class="h-2 rounded bg-slate-300"></div>
-                            <div class="space-y-3">
-                                <div class="grid grid-cols-3 gap-4">
-                                    <div class="h-2 col-span-2 rounded bg-slate-300"></div>
-                                    <div class="h-2 col-span-1 rounded bg-slate-300"></div>
-                                </div>
-                                <div class="h-2 rounded bg-slate-300"></div>
-                            </div>
+                <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div class="flex flex-col ">
+                        <div class="inline-flex items-center justify-center w-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.107-1.204l-.527-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <h1 class="ml-1 font-bold text-center text-gray-900"><span x-text="user.name"></span> profile settings page</h1>
                         </div>
+                        <span x-show="user_id === user.id" class="text-sm text-center text-gray-500">Aqui nesta pagina pode gerir todo o conteudo relacionado com o seu perfil</sp>
                     </div>
                 </div>
 
-                {{-- Posts --}}
-                <template x-for="post in user.posts" :key="post.id">
-                    <div class="flex justify-center w-full">
-                        <div class="w-full px-6 py-4 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg hover:shadow-xl hover:cursor-pointer">
-                            <div class="inline-flex justify-between w-full">
-                                <div @click="navigateTo('/posts/'+post.id)" class="w-8/12">
-                                    <h1 class="font-bold text-gray-900" x-text="post.title"></h1>
+                {{-- Settings --}}
+                <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div class="flex flex-col w-full">
+                        <h1 class="font-bold text-gray-900">@lang('account_settings')</h1>
+                        <span class="text-sm text-gray-400">@lang('change_your_profile_and_account_settings')</span>
+
+                        <form class="mt-5">
+                            <div class="relative z-0 w-full mb-6 group">
+                                <input type="email" name="floating_email" id="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
+                            </div>
+                            <div class="relative z-0 w-full mb-6 group">
+                                <input type="password" name="floating_password" id="floating_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                <label for="floating_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
+                            </div>
+                            <div class="relative z-0 w-full mb-6 group">
+                                <input type="password" name="repeat_password" id="floating_repeat_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                <label for="floating_repeat_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirm password</label>
+                            </div>
+                            <div class="grid md:grid-cols-2 md:gap-6">
+                                <div class="relative z-0 w-full mb-6 group">
+                                    <input type="text" name="floating_first_name" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
                                 </div>
-                                <div class="flex-col w-4/12 text-right">
-                                    <div class="inline-flex">
-                                        <a type="button" @click="navigateTo(`/profile/`+post.author)" class="text-sm text-gray-500 hover:cursor-pointer hover:text-gray-300" x-text="post.authorName"></a>
-                                        <x-dropdown align="rigth" width="48">
-                                            <x-slot name="trigger">
-                                                <button x-show="post.author === user_id" x-tooltip="ttp_tools" type="button" class="inline-flex items-center ml-1 text-sm font-light text-gray-500 hover:border-gray-300 focus:border-gray-300 hover:bg-gray-200">
-                                                    <x-fas-ellipsis-v class="w-4 h-4"/>
-                                                </button>
-                                            </x-slot>
-                                            <x-slot name="content">
-                                                <!-- Dropdown menu -->
-                                                <ul class="py-1 text-gray-800" aria-labelledby="dropdownButton">
-                                                    <li>
-                                                        <span @click.prevent="editPost(`${post.id}`)" class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                            @lang('edit_post')
-                                                        </span>
-                                                    </li>
-                                                    <li>
-                                                        <span @click.prevent="deletePost(`${post.id}`)" class="block px-4 py-2 text-sm text-red-600 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                            @lang('delete_post')
-                                                        </span>
-                                                    </li>
-                                                </ul>
-                                            </x-slot>
-                                        </x-dropdown>
-                                    </div>
+                                <div class="relative z-0 w-full mb-6 group">
+                                    <input type="text" name="floating_last_name" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                    <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
                                 </div>
                             </div>
-                            <div @click="navigateTo('/posts/'+post.id)" class="h-20 mt-2 overflow-hidden">
-                                <p class="text-sm text-gray-500" x-text="post?.content"></p>
+                            <div class="grid md:grid-cols-2 md:gap-6">
+                                <div class="relative z-0 w-full mb-6 group">
+                                    <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="floating_phone" id="floating_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                    <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number (123-456-7890)</label>
+                                </div>
+                                <div class="relative z-0 w-full mb-6 group">
+                                    <input type="text" name="floating_company" id="floating_company" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                    <label for="floating_company" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Company (Ex. Google)</label>
+                                </div>
                             </div>
-                            <div :class="post.created_at !== post.updated_at ? 'flex justify-between w-full mt-2' : 'flex justify-end w-full mt-2'">
-                                <span class="text-xs text-gray-500 whitespace-nowrap" x-text="Lang.get('strings.published_at')+': '+ date_short(post.created_at)"></span>
-                                <span x-tooltip="date_readable(post.updated_at)" x-show="post.created_at !== post.updated_at" class="text-xs text-gray-500 cursor-pointer">*@lang('edited')</span>
-                            </div>
-                            <hr class="mt-1 text-gray-500 border-1">
-                            {{-- Post buttons --}}
-                            <div class="flex flex-wrap justify-start w-full gap-3 mt-2">
-                                <span class="inline-flex items-center">
-                                    <x-fas-comment class="w-4 h-4 text-gray-300"/>
-                                    <span class="ml-1 text-sm text-gray-400" x-text="post.comments_count">0</span>
-                                </span>
-                                <span class="inline-flex items-center">
-                                    <x-fas-heart class="w-4 h-4 text-gray-300"/>
-                                    <span class="ml-1 text-sm text-gray-400" >0</span>
-                                </span>
-                            </div>
-                        </div>
+                            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                        </form>
+
                     </div>
-                </template>
+                </div>
+
             </section>
-
         </div>
-
-        <x-modals.crud-post/>
-
     </div>
 </div>
+
 </x-app-layout>
 <script>
     let backendRecord = @json($user);
 
-    function profileData() {
+    function profileSettingsData() {
         return {
             ttp_tools: Lang.get('strings.options'),
             ttp_profile_settings: Lang.get('strings.profile_settings'),
             authHasFollowedRequestProfileUser: null,
             authIsFollowingProfileUser: null,
             isShowingPendingRequests: false,
-            isCrudPostModalOpen: false,
-            isPostEditing: false,
-            editPostID: null,
-            isLoading: true,
-            postForm: {
-                title: null,
-                content: null,
-                author: user_id,
-            },
-            posts: [],
-            userPosts: [],
-            filteredPosts: [],
             user: null,
             init() {
                 try {
@@ -225,8 +189,6 @@
 
                 console.log(user_id);
 
-                this.isLoading = false;
-
                 this.fetchData();
             },
             fetchData() {
@@ -240,51 +202,6 @@
                     console.log(error);
                 });
 
-            },
-            editPost(record_id){
-                console.log("edit",record_id);
-
-                this.isPostEditing = true;
-                this.editPostID = record_id;
-                let post = this.user.posts.find(post => post.id === record_id);
-
-                this.postForm.title = post.title;
-                this.postForm.content = post.content;
-
-                this.isCrudPostModalOpen = true;
-            },
-            isDeletePopUpOpen: false,
-            isPostDeleting: false,
-            postToDelete: null,
-            deletePost(record_id){
-                this.isPostDeleting = true;
-                this.postToDelete = record_id;
-                this.isDeletePopUpOpen = true;
-            },
-            filter(type) {
-                switch(type) {
-                    case 'all_posts':
-                        this.filteredPosts = this.posts;
-                        this.filterName = 'all_posts';
-                        break;
-                    case 'user_posts':
-                        this.filteredPosts = this.userPosts;
-                        this.filterName = 'user_posts';
-                        break;
-                }
-            },
-            deleteData() {
-                if (this.isPostDeleting && this.postToDelete !== null) {
-                    axios.delete('/api/posts/' + this.postToDelete)
-                        .then(response => {
-                            notyf.success('Deleted successfully!');
-                            this.postToDelete = null;
-                            this.isPostDeleting = false;
-                            this.isDeletePopUpOpen = false;
-                            this.fetchData();
-                        })
-                        .catch((error) => console.log(error.message));
-                }
             },
             toggleFollowUser(record_id) {
                 axios.post('/api/users/toggle-follow-user/'+record_id)

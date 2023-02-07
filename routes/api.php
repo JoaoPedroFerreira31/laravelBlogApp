@@ -28,11 +28,13 @@ Route::name('api.')->middleware('auth:sanctum')->group(function () {
     Route::post('users/reject-pending-request/{user}', [UserController::class, 'rejectPendingRequest']);
     Route::post('users/remove-follower/{user}', [UserController::class, 'removeFromFollowers']);
 
+    Route::get('fetch-friends-posts', [PostController::class, 'fetchUserFriendsPosts']);
+    Route::get('fetch-user-posts', [PostController::class, 'fetchUserPosts']);
+
     Route::apiResource('users', UserController::class);
     Route::apiResource('posts', PostController::class);
     Route::apiResource('comments', CommentController::class);
 
-    Route::get('fetch-friends-posts', [PostController::class, 'fetchUserFriendsPosts']);
-    Route::get('fetch-user-posts', [PostController::class, 'fetchUserPosts']);
+
 });
 

@@ -71,6 +71,16 @@ Route::middleware('auth:sanctum')->group(function () {
 
     })->name('profile');
 
+    // Profile Settings
+    Route::get('/profile/{user}/settings', function (Request $request) {
+        $user = User::find($request['user']);
+
+        return view('profile-settings', [
+            'user' => $user,
+        ]);
+
+    })->name('profile-settings');
+
 });
 
 

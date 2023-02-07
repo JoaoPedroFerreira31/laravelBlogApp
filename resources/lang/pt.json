@@ -39,5 +39,6 @@
     "comment_created_successfully": "Comentário criado com sucesso!",
     "comment_updated_successfully": "Comentário atualizado com sucesso!",
     "read_more": "Ler mais",
-    "no_comments_found": "Comentários não encontrados"
+    "no_comments_found": "Comentários não encontrados",
+    "profile_settings": "Definições de conta"
 }
