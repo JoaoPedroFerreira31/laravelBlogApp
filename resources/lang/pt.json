@@ -40,5 +40,19 @@
     "comment_updated_successfully": "Comentário atualizado com sucesso!",
     "read_more": "Ler mais",
     "no_comments_found": "Comentários não encontrados",
-    "profile_settings": "Definições de conta"
+    "profile_settings": "Definições de conta",
+    "profile_settings_page": "Página de definições de conta",
+    "here_you_can_manage_all_the_content_related_to_your_profile": "Aqui nesta pagina pode gerir todo o conteudo relacionado com a sua conta",
+    "email_address": "Endereço de email",
+    "first_name": "Primeiro nome",
+    "last_name": "Ultimo nome",
+    "company": "Empresa",
+    "account_settings": "Definições de conta",
+    "change_your_profile_and_account_settings": "Altere as definiçoes do perfil e da conta",
+    "website": "Website",
+    "country": "País",
+    "date_of_birth": "Data de nascimento",
+    "username": "Nome de utilizador",
+    "description": "Descrição",
+    "update": "Atualizar"
 }
