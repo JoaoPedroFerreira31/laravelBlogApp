@@ -86,7 +86,7 @@ class PostController extends Controller
      */
     public function fetchUserPosts()
     {
-        $posts = Post::where('author', Auth::user()->id)->with('comments', 'comments.user')->withCount('comments')->get();
+        $posts = Post::where('author', Auth::user()->id)->with('comments:id,post_id,comment,user_id', 'comments.user:id,name')->withCount('comments')->get();
 
         return new PostCollection($posts);
     }
