@@ -54,5 +54,8 @@
     "date_of_birth": "Data de nascimento",
     "username": "Nome de utilizador",
     "description": "Descrição",
-    "update": "Atualizar"
+    "update": "Atualizar",
+    "personal_information": "Informação Pessoal",
+    "please_fix_the_following_errors": "Por favor, corrija os seguintes erros",
+    "user_updated_successfully": "User updated successfully!"
 }

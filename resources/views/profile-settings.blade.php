@@ -24,6 +24,55 @@
                         </div>
                     </div>
                 </div>
+
+                 {{-- Personal information --}}
+                 <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div class="flex flex-col w-full">
+                        <div class="flex flex-wrap justify-between mb-2">
+                            <div class="flex flex-col">
+                                <h1 class="text-lg font-bold text-gray-900">@lang('personal_information')</h1>
+                            </div>
+                        </div>
+                        <dl>
+                            <div class="flex justify-between px-2 py-2">
+                                <div class="flex-col">
+                                    <dt class="text-sm font-bold">@lang('first_name')</dt>
+                                    <dd class="mt-1 text-sm text-gray-900" x-text="user?.first_name"></dd>
+                                </div>
+
+                                <div class="flex-col text-right">
+                                    <dt class="text-sm font-bold">@lang('last_name')</dt>
+                                    <dd class="mt-1 text-sm text-gray-900" x-text="user?.last_name"></dd>
+                                </div>
+                            </div>
+                            <div class="flex justify-between px-2 py-2">
+                                <div class="flex-col">
+                                    <dt class="text-sm font-bold">@lang('date_of_birth')</dt>
+                                    <dd class="mt-1 text-sm text-gray-900" x-text="user?.dob ?? '--'"></dd>
+                                </div>
+                                <div class="flex-col text-right">
+                                    <dt class="text-sm font-bold">@lang('country')</dt>
+                                    <dd class="mt-1 text-sm text-gray-900" x-text="user?.country ?? '--'"></dd>
+                                </div>
+                            </div>
+                            <div class="flex justify-between px-2 py-2">
+                                <div class="flex-col">
+                                    <dt class="text-sm font-bold">@lang('company')</dt>
+                                    <dd class="mt-1 text-sm text-gray-900" x-text="user?.company ?? '--'"></dd>
+                                </div>
+                                <div class="flex-col text-right">
+                                    <dt class="text-sm font-bold">@lang('website')</dt>
+                                    <dd class="mt-1 text-sm text-gray-900 hover:cursor-pointer hover:opacity-80" x-text="user?.website ?? '--'" @click="user.website ? navigateTo(user.website) : null"></dd>
+                                </div>
+                            </div>
+                            <div class="px-2 py-2">
+                                <dt class="text-sm font-bold">@lang('description')</dt>
+                                <dd class="mt-1 text-sm text-gray-900" x-text="user?.description ?? '--'"></dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+
             </section>
 
             {{-- Page content --}}
@@ -91,7 +140,7 @@
                             {{-- Website / Country --}}
                             <div class="grid md:grid-cols-2 md:gap-6">
                                 <div class="relative z-0 w-full mb-6 group">
-                                    <input type="text" x-model="userForm.website" name="floating_site" id="floating_site" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                                    <input type="url" x-model="userForm.website" name="floating_site" id="floating_site" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
                                     <label for="floating_site" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">@lang('website') (Ex. www.example.com)</label>
                                 </div>
                                 <div class="relative z-0 w-full mb-6 group">
@@ -106,7 +155,7 @@
                                 <label for="floating_description" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">@lang('description')</label>
                             </div>
 
-                            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm w-full sm:w-auto px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">@lang('update')</button>
+                            <button type="submit" class="w-full px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">@lang('update')</button>
                         </form>
 
                     </div>
@@ -147,8 +196,6 @@
                     this.user = backendRecord;
                     this.authHasFollowedRequestProfileUser = "{{ Auth::user()->hasRequestedToFollow($user) }}";
                     this.authIsFollowingProfileUser = "{{ Auth::user()->isFollowing($user) }}";
-
-                    console.log('userForm', this.userForm);
                 } catch(err) {
                     console.log(err);
                 }
@@ -162,8 +209,6 @@
                     })
                     .catch((err) => { console.log(err) });
                 }
-
-                console.log(user_id);
 
                 this.fetchData();
                 this.processFormData();
