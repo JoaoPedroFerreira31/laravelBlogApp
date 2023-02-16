@@ -37,8 +37,8 @@ class User extends Authenticatable
         'company',
         'description',
         'website',
-        'firstName',
-        'lastName',
+        'first_name',
+        'last_name',
     ];
 
     /**

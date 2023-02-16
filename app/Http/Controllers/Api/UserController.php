@@ -52,6 +52,20 @@ class UserController extends Controller
     }
 
     /**
+     * @param \App\Http\Requests\UpdateUserRequest $request
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateUserRequest $request, User $user)
+    {
+        logger($request);
+
+        $validated = $request->validated();
+        $user->update($validated);
+        return new UserResource($user);
+    }
+
+    /**
     * @param \Illuminate\Http\Request $request
     * @param \App\Models\User $user
     * @return \Illuminate\Http\Response
@@ -109,27 +123,6 @@ class UserController extends Controller
     //     $post = Post::create($validated);
 
     //     return new PostResource($post);
-    // }
-
-    // /**
-    //  * @param \App\Http\Requests\UpdatePostRequest $request
-    //  * @param \App\Models\Post $post
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(UpdatePostRequest $request, Post $post)
-    // {
-
-    //     if($post->author === Auth::user()->id) {
-
-    //         $validated = $request->validated();
-
-    //         $post->update($validated);
-
-    //         return new PostResource($post);
-
-    //     } else {
-    //         return abort(403, 'You are not allowed to edit this post');
-    //     }
     // }
 
     // /**

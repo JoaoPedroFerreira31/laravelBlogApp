@@ -48,6 +48,10 @@
                         <span class="text-sm text-gray-400">@lang('change_your_profile_and_account_settings')</span>
 
                         <form @submit.prevent="updateUserData()" class="mt-5">
+
+                             <!-- Panel validation errors -->
+                             <x-partials.crud-errors/>
+
                             {{-- Email --}}
                             <div class="relative z-0 w-full mb-6 group">
                                 <input type="email" x-model="userForm.email" name="floating_email" id="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
@@ -56,7 +60,7 @@
 
                             {{-- Username --}}
                             <div class="relative z-0 w-full mb-6 group">
-                                <input type="text" x-model="userForm.username" name="floating_username" id="floating_username" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                <input type="text" x-model="userForm.name" name="floating_username" id="floating_username" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                                 <label for="floating_username" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">@lang('username')</label>
                             </div>
 
@@ -127,7 +131,7 @@
             user: null,
             userForm: {
                 email: null,
-                username: null,
+                name: null,
                 first_name: null,
                 last_name: null,
                 description: null,
@@ -136,24 +140,15 @@
                 website: null,
                 company: null,
             },
+            haveErrors: false,
+            errors: [],
             init() {
                 try {
                     this.user = backendRecord;
                     this.authHasFollowedRequestProfileUser = "{{ Auth::user()->hasRequestedToFollow($user) }}";
                     this.authIsFollowingProfileUser = "{{ Auth::user()->isFollowing($user) }}";
 
-                    this.userForm.email = this.user.email;
-                    this.userForm.username = this.user.name;
-                    this.userForm.firstName = this.user.first_name;
-                    this.userForm.lastName = this.user.last_name;
-                    this.userForm.description = this.user.description;
-                    this.userForm.dob = this.user.dob;
-                    this.userForm.country = this.user.country;
-                    this.userForm.website = this.user.website;
-                    this.userForm.company = this.user.company;
-
                     console.log('userForm', this.userForm);
-
                 } catch(err) {
                     console.log(err);
                 }
@@ -171,6 +166,7 @@
                 console.log(user_id);
 
                 this.fetchData();
+                this.processFormData();
             },
             fetchData() {
 
@@ -184,9 +180,43 @@
                 });
 
             },
+            processFormData() {
+                this.userForm.email = this.user.email ?? null;
+                this.userForm.name = this.user.name ?? null;
+                this.userForm.first_name = this.user.first_name ?? null;
+                this.userForm.last_name = this.user.last_name ?? null;
+                this.userForm.description = this.user.description ?? null;
+                this.userForm.dob = this.user.dob ?? null;
+                this.userForm.country = this.user.country ?? null;
+                this.userForm.website = this.user.website ?? null;
+                this.userForm.company = this.user.company ?? null;
+            },
             updateUserData() {
-                console.log('updating... '+ this.userForm.username);
+                console.log('updating... '+ this.userForm.name);
                 console.log(this.userForm);
+
+                this.isSaving = true;
+                this.haveErrors = false;
+                this.errors = [];
+
+                if (navigator.onLine) {
+                    axios({
+                        method: 'put',
+                        url: '/api/users/' +this.user.id,
+                        data: this.userForm,
+                    }).then((response) => {
+                        notyf.success(Lang.get('user_updated_successfully'));
+                        this.isSaving = false;
+                        this.fetchData();
+                    }).catch((error) => {
+                        notyf.alert('please_check_the_errors_and_retry');
+                        this.haveErrors = true;
+                        this.isSaving = false;
+                        this.errors = error.response.data.errors;
+                    });
+                } else {
+                    saveOfflineStorage('edit', this.user.id, 'user-update-'+this.user.id, this.userForm);
+                }
             },
         }
     }
