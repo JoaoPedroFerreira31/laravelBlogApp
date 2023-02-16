@@ -1,6 +1,6 @@
 <x-app-layout>
     <div x-data="profileData()" class="mx-auto max-w-7xl sm:px-6 lg:px-8" x-cloak>
-        <div class="grid w-full gap-2 mt-2 lg:grid-cols-3 sm:grid-cols-1">
+        <div class="grid w-full gap-2 mt-2 lg:grid-cols-4 sm:grid-cols-1">
 
             {{-- User information --}}
             <section>
@@ -18,11 +18,13 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
                         </div>
-                        <span x-if="user?.first_name && user?.last_name" x-text="'@'+user.name" class="text-sm font-semibold text-center text-gray-500 "></span>
+                        <template x-if="user?.first_name && user?.last_name">
+                            <span x-text="'@'+user?.name" class="text-sm font-semibold text-center text-gray-500 "></span>
+                        </template>
                         <div class="inline-flex justify-center w-full mt-1 gap-x-2">
-                            <span class="text-sm font-bold"><span x-text="user.posts_count" class="mr-1"></span> @lang('posts')</span>
-                            <span class="text-sm font-bold"><span x-text="user.followers_count" class="mr-1"></span> @lang('followers')</span>
-                            <span class="text-sm font-bold"><span x-text="user.followings_count" class="mr-1"></span> @lang('followings')</span>
+                            <span class="text-sm font-bold whitespace-nowrap"><span x-text="user.posts_count" class="mr-1"></span> @lang('posts')</span>
+                            <span class="text-sm font-bold whitespace-nowrap"><span x-text="user.followers_count" class="mr-1"></span> @lang('followers')</span>
+                            <span class="text-sm font-bold whitespace-nowrap"><span x-text="user.followings_count" class="mr-1"></span> @lang('followings')</span>
                         </div>
 
                         {{-- Follow btn --}}
@@ -44,7 +46,7 @@
                             </div>
                         </div>
                         <dl>
-                            <div class="flex justify-between px-2 py-2">
+                            <div class="flex justify-between py-2">
                                 <div class="flex-col">
                                     <dt class="text-sm font-bold">@lang('first_name')</dt>
                                     <dd class="mt-1 text-sm text-gray-900" x-text="user?.first_name"></dd>
@@ -55,7 +57,7 @@
                                     <dd class="mt-1 text-sm text-gray-900" x-text="user?.last_name"></dd>
                                 </div>
                             </div>
-                            <div class="flex justify-between px-2 py-2">
+                            <div class="flex justify-between py-2">
                                 <div class="flex-col">
                                     <dt class="text-sm font-bold">@lang('date_of_birth')</dt>
                                     <dd class="mt-1 text-sm text-gray-900" x-text="user?.dob ?? '--'"></dd>
@@ -65,7 +67,7 @@
                                     <dd class="mt-1 text-sm text-gray-900" x-text="user?.country ?? '--'"></dd>
                                 </div>
                             </div>
-                            <div class="flex justify-between px-2 py-2">
+                            <div class="flex justify-between py-2">
                                 <div class="flex-col">
                                     <dt class="text-sm font-bold">@lang('company')</dt>
                                     <dd class="mt-1 text-sm text-gray-900" x-text="user?.company ?? '--'"></dd>
@@ -75,66 +77,11 @@
                                     <dd class="mt-1 text-sm text-gray-900 hover:cursor-pointer hover:opacity-80" x-text="user?.website ?? '--'" @click="user.website ? navigateTo(user.website) : null"></dd>
                                 </div>
                             </div>
-                            <div class="px-2 py-2">
+                            <div class="py-2 ">
                                 <dt class="text-sm font-bold">@lang('description')</dt>
                                 <dd class="mt-1 text-sm text-gray-900" x-text="user?.description ?? '--'"></dd>
                             </div>
                         </dl>
-                    </div>
-                </div>
-
-                {{-- Followers section --}}
-                <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                    <div class="flex flex-col w-full">
-                        <div class="flex flex-wrap justify-between">
-                            <div class="flex flex-col">
-                                <h1 class="text-lg font-bold text-gray-900">@lang('followers') (<span class="text-md" x-text="user.followers_count"></span>)</h1>
-                                <span x-show="user.pending_requests_count > 0 && user_id === user.id" @click.prevent="isShowingPendingRequests = !isShowingPendingRequests" type="button" class="text-xs text-gray-500 hover:cursor-pointer hover:text-gray-300"><span x-text="user.pending_requests_count"></span> Pending requests</span>
-                            </div>
-                        </div>
-                        <template x-for="pendingUser in user.pending_requests">
-                            <div x-show="isShowingPendingRequests" class="inline-flex justify-between w-full mt-3">
-                                <div class="flex flex-col items-center">
-                                    <h6 class="text-sm font-bold hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+pendingUser.id)" x-text="pendingUser.name"></h6>
-                                </div>
-                                <div class="flex flex-wrap" x-show="user_id === user.id">
-                                    <x-fas-check-circle @click.prevent="acceptPendingRequest(`${pendingUser.id}`)" class="w-5 h-5 mr-2 text-green-500 cursor-pointer hover:text-green-200"/>
-                                    <x-fas-times-circle @click.prevent="rejectPendingRequest(`${pendingUser.id}`)" class="w-5 h-5 text-red-500 cursor-pointer hover:text-red-200"/>
-                                </div>
-                            </div>
-                        </template>
-                        <template x-for="follower in user.followers">
-                            <div x-show="!isShowingPendingRequests" class="flex justify-between w-full mt-4">
-                                <div class="inline-flex items-center">
-                                    <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="follower.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
-                                    <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+follower.id)" x-text="follower.name"></h6>
-                                </div>
-                                <button type="button" x-text="Lang.get('strings.remove')" x-show="user_id === user.id" @click.prevent="removeFollower(`${follower.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
-                                </button>
-                            </div>
-                        </template>
-                    </div>
-                </div>
-
-
-                {{-- Followings section --}}
-                <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                    <div class="flex flex-col w-full">
-                        <div class="flex flex-wrap justify-between">
-                            <div class="inline-flex">
-                                <h1 class="text-lg font-bold text-gray-900">@lang('followings') (<span class="text-md" x-text="user.followings_count"></span>)</h1>
-                            </div>
-                        </div>
-                        <template x-for="following in user.followings">
-                            <div class="flex justify-between w-full mt-4">
-                                <div class="inline-flex items-center">
-                                    <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="following.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
-                                    <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+following.id)" x-text="following.name"></h6>
-                                </div>
-                                <button type="button" x-text="Lang.get('strings.unfollow')" x-show="user_id === user.id" @click.prevent="toggleFollowUser(`${following.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" > --}}
-                                </button>
-                            </div>
-                        </template>
                     </div>
                 </div>
 
@@ -217,6 +164,64 @@
                         </div>
                     </div>
                 </template>
+            </section>
+
+            {{-- Followings section (left section) --}}
+            <section class="">
+                 {{-- Followers section --}}
+                 <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div class="flex flex-col w-full">
+                        <div class="flex flex-wrap justify-between">
+                            <div class="flex flex-col">
+                                <h1 class="text-lg font-bold text-gray-900">@lang('followers') (<span class="text-md" x-text="user.followers_count"></span>)</h1>
+                                <span x-show="user.pending_requests_count > 0 && user_id === user.id" @click.prevent="isShowingPendingRequests = !isShowingPendingRequests" type="button" class="text-xs text-gray-500 hover:cursor-pointer hover:text-gray-300"><span x-text="user.pending_requests_count"></span> Pending requests</span>
+                            </div>
+                        </div>
+                        <template x-for="pendingUser in user.pending_requests">
+                            <div x-show="isShowingPendingRequests" class="inline-flex justify-between w-full mt-3">
+                                <div class="flex flex-col items-center">
+                                    <h6 class="text-sm font-bold hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+pendingUser.id)" x-text="pendingUser.name"></h6>
+                                </div>
+                                <div class="flex flex-wrap" x-show="user_id === user.id">
+                                    <x-fas-check-circle @click.prevent="acceptPendingRequest(`${pendingUser.id}`)" class="w-5 h-5 mr-2 text-green-500 cursor-pointer hover:text-green-200"/>
+                                    <x-fas-times-circle @click.prevent="rejectPendingRequest(`${pendingUser.id}`)" class="w-5 h-5 text-red-500 cursor-pointer hover:text-red-200"/>
+                                </div>
+                            </div>
+                        </template>
+                        <template x-for="follower in user.followers">
+                            <div x-show="!isShowingPendingRequests" class="flex justify-between w-full mt-4">
+                                <div class="inline-flex items-center">
+                                    <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="follower.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
+                                    <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+follower.id)" x-text="follower.name"></h6>
+                                </div>
+                                <button type="button" x-text="Lang.get('strings.remove')" x-show="user_id === user.id" @click.prevent="removeFollower(`${follower.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+
+                {{-- Followings section --}}
+                <div class="w-full p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div class="flex flex-col w-full">
+                        <div class="flex flex-wrap justify-between">
+                            <div class="inline-flex">
+                                <h1 class="text-lg font-bold text-gray-900">@lang('followings') (<span class="text-md" x-text="user.followings_count"></span>)</h1>
+                            </div>
+                        </div>
+                        <template x-for="following in user.followings">
+                            <div class="flex justify-between w-full mt-4">
+                                <div class="inline-flex items-center">
+                                    <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="following.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
+                                    <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+following.id)" x-text="following.name"></h6>
+                                </div>
+                                <button type="button" x-text="Lang.get('strings.unfollow')" x-show="user_id === user.id" @click.prevent="toggleFollowUser(`${following.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" > --}}
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
             </section>
 
         </div>

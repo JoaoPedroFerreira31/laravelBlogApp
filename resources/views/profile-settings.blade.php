@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <dl>
-                            <div class="flex justify-between px-2 py-2">
+                            <div class="flex justify-between py-2">
                                 <div class="flex-col">
                                     <dt class="text-sm font-bold">@lang('first_name')</dt>
                                     <dd class="mt-1 text-sm text-gray-900" x-text="user?.first_name"></dd>
@@ -45,7 +45,7 @@
                                     <dd class="mt-1 text-sm text-gray-900" x-text="user?.last_name"></dd>
                                 </div>
                             </div>
-                            <div class="flex justify-between px-2 py-2">
+                            <div class="flex justify-between py-2">
                                 <div class="flex-col">
                                     <dt class="text-sm font-bold">@lang('date_of_birth')</dt>
                                     <dd class="mt-1 text-sm text-gray-900" x-text="user?.dob ?? '--'"></dd>
@@ -55,7 +55,7 @@
                                     <dd class="mt-1 text-sm text-gray-900" x-text="user?.country ?? '--'"></dd>
                                 </div>
                             </div>
-                            <div class="flex justify-between px-2 py-2">
+                            <div class="flex justify-between py-2">
                                 <div class="flex-col">
                                     <dt class="text-sm font-bold">@lang('company')</dt>
                                     <dd class="mt-1 text-sm text-gray-900" x-text="user?.company ?? '--'"></dd>
@@ -65,7 +65,7 @@
                                     <dd class="mt-1 text-sm text-gray-900 hover:cursor-pointer hover:opacity-80" x-text="user?.website ?? '--'" @click="user.website ? navigateTo(user.website) : null"></dd>
                                 </div>
                             </div>
-                            <div class="px-2 py-2">
+                            <div class="py-2">
                                 <dt class="text-sm font-bold">@lang('description')</dt>
                                 <dd class="mt-1 text-sm text-gray-900" x-text="user?.description ?? '--'"></dd>
                             </div>

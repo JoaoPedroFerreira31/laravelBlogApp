@@ -82,7 +82,7 @@
                             <hr class="mt-1 text-gray-500 border-1">
 
                             {{-- Post buttons --}}
-                            <div class="flex flex-wrap justify-between w-full gap-3 mt-2 items-center">
+                            <div class="flex flex-wrap items-center justify-between w-full gap-3 mt-2">
                                 <div class="inline-flex gap-2">
                                     <span class="inline-flex items-center">
                                         <x-fas-comment @click.prevent="showCommentModal(`${post.id}`)" class="w-4 h-4 text-gray-300 hover:text-gray-500"/>
