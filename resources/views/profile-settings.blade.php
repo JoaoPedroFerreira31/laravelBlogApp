@@ -250,11 +250,11 @@
                         url: '/api/users/' +this.user.id,
                         data: this.userForm,
                     }).then((response) => {
-                        notyf.success(Lang.get('user_updated_successfully'));
+                        notyf.success(Lang.get('strings.user_updated_successfully'));
                         this.isSaving = false;
                         this.fetchData();
                     }).catch((error) => {
-                        notyf.alert('please_check_the_errors_and_retry');
+                        notyf.alert(Lang.get('strings.please_check_the_errors_and_retry'));
                         this.haveErrors = true;
                         this.isSaving = false;
                         this.errors = error.response.data.errors;

@@ -103,7 +103,7 @@
             </section>
 
             {{-- Right section --}}
-            <section class="hidden lg:block">
+            <section class="hidden lg:block overflow-hidden">
                 {{-- Search --}}
                 <div class="relative w-full pt-2 mx-auto text-gray-600">
                     <input class="w-full h-10 px-5 pr-16 text-sm bg-white border-none rounded-lg focus:outline-none"

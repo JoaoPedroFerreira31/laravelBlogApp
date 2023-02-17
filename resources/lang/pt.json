@@ -57,5 +57,8 @@
     "update": "Atualizar",
     "personal_information": "Informação Pessoal",
     "please_fix_the_following_errors": "Por favor, corrija os seguintes erros",
-    "user_updated_successfully": "User updated successfully!"
+    "user_updated_successfully": "User updated successfully!",
+    "please_check_the_errors_and_retry": "Por favor, verifique os erros e tente novamente",
+    "delete": "Apagar",
+    "delete_record": "Apagar registo"
 }

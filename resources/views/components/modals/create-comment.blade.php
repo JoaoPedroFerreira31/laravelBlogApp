@@ -32,7 +32,7 @@
                 </div>
 
                 <!-- form -->
-                <div class="p-6 sm:flex flex-col sm:items-start">
+                <div class="flex-col p-6 sm:flex sm:items-start">
 
                     <div>
                         <div class="inline-flex justify-between w-full">
@@ -48,7 +48,7 @@
                         <p class="text-sm text-gray-500 line-clamp-4" x-text="selectedPost?.content"></p>
                     </div>
 
-                    <div class="px-1 divide-y divide-gray-200 w-full">
+                    <div class="w-full px-1 divide-y divide-gray-200">
                         <div class="space-y-3">
 
                             <!-- Panel validation errors -->
@@ -106,7 +106,7 @@
                 .then(response => {
                     this.isCommentModalOpen = false;
                     this.clearCommentsForm();
-                    notyf.success(Lang.get('comment_added_successfully'));~
+                    notyf.success(Lang.get('strings.comment_added_successfully'));
                     this.fetchData();
                 }).catch(error => {
                     console.log(error.message)

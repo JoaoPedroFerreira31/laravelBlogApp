@@ -91,12 +91,12 @@
                         data: this.postForm,
                     }).then((response) => {
                         this.isCrudPostModalOpen = false;
-                        notyf.success(this.isPostEditing ? Lang.get('post_updated_successfully') : Lang.get('post_added_successfully') );
+                        notyf.success(this.isPostEditing ? Lang.get('strings.post_updated_successfully') : Lang.get('strings.post_added_successfully') );
                         this.isPostEditing = false;
                         this.isSaving = false;
                         this.fetchData();
                     }).catch((error) => {
-                        notyf.alert('please_check_the_errors_and_retry');
+                        notyf.alert(Lang.get('strings.please_check_the_errors_and_retry'));
                         this.haveErrors = true;
                         this.isSaving = false;
                         this.errors = error.response.data.errors;
