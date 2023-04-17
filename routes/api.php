@@ -28,6 +28,9 @@ Route::name('api.')->middleware('auth:sanctum')->group(function () {
     Route::post('users/reject-pending-request/{user}', [UserController::class, 'rejectPendingRequest']);
     Route::post('users/remove-follower/{user}', [UserController::class, 'removeFromFollowers']);
 
+    // Upload files
+    Route::post('/upload-user-photo/{user}', [UserController::class, 'updateUserPhoto']);
+
     Route::get('fetch-friends-posts', [PostController::class, 'fetchUserFriendsPosts']);
     Route::get('fetch-user-posts', [PostController::class, 'fetchUserPosts']);
 

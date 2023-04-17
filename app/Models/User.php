@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Post;
+use App\Traits\UploadImage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Overtrue\LaravelFollow\Followable;
 use Spatie\Permission\Traits\HasRoles;
@@ -22,6 +23,7 @@ class User extends Authenticatable
     use HasRoles;
     use SoftDeletes;
     use Followable;
+    use UploadImage;
 
     /**
      * The attributes that are mass assignable.
@@ -39,6 +41,7 @@ class User extends Authenticatable
         'website',
         'first_name',
         'last_name',
+        'image'
     ];
 
     /**
