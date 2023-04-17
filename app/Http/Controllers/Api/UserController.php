@@ -10,6 +10,8 @@ use App\Http\Resources\UserResource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -58,10 +60,47 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        logger($request);
-
         $validated = $request->validated();
         $user->update($validated);
+        return new UserResource($user);
+    }
+
+    /**
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Request
+     */
+    public function updateUserPhoto(Request $request, User $user)
+    {
+        $request->validate([
+            'image' => 'required|file|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($user->image) {
+                try {
+                    Storage::disk('public')->delete(Auth::user()->name.'/files/'.$user->image);
+                } catch (\Throwable $th) {
+                    logger($th->getMessage());
+                }
+            }
+
+            // Get image file
+            $image = $request->file('image');
+            //get file extension
+            $extension = request()->file('image')->extension();
+            // Make a image name
+            $name = 'user_'.Str::uuid()->getHex().'.'.$extension;
+            // Define folder path
+            $folder = Auth::user()->club_id.'/'.'users';
+
+            if ($user->uploadOne($image, $folder, $name)) {
+                $user->update([
+                    'image' => $folder.'/'.$name,
+                ]);
+            };
+        }
+
         return new UserResource($user);
     }
 

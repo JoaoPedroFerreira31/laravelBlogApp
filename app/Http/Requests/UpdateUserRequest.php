@@ -33,6 +33,7 @@ class UpdateUserRequest extends FormRequest
             'country' => 'nullable|string',
             'company' => 'nullable|string',
             'description' => 'nullable|string',
+            'image' => 'nullable|file|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ];
     }
 }
