@@ -24,6 +24,7 @@ require('laravel-mix-serve');
 mix.serve('php artisan lang:js');
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/utils.js', 'public/js')
+    .js('resources/js/bootstrap.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
         require('tailwindcss'),
         require('autoprefixer'),
