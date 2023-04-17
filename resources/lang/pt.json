@@ -60,5 +60,6 @@
     "user_updated_successfully": "User updated successfully!",
     "please_check_the_errors_and_retry": "Por favor, verifique os erros e tente novamente",
     "delete": "Apagar",
-    "delete_record": "Apagar registo"
+    "delete_record": "Apagar registo",
+    "image": "Imagem"
 }

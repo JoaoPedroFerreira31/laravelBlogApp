@@ -5,7 +5,7 @@ DONE - Language system
 DONE - Create profile settings page (description, nationality, site, etc...)
 DONE - Make comment modal (Dashboard)
 DONE - Make comment section (Post show)
-- Add profile picture
+DONE - Add profile picture
 - Posts with photo
 - Notification system
 - Explore page
