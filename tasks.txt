@@ -6,6 +6,7 @@ DONE - Create profile settings page (description, nationality, site, etc...)
 DONE - Make comment modal (Dashboard)
 DONE - Make comment section (Post show)
 DONE - Add profile picture
+DONE - Chat system
 - Posts with photo
 - Notification system
 - Explore page
@@ -15,6 +16,5 @@ DONE - Add profile picture
 - Update Search bar (Modal soccer 2022)
 - Like system
 - Add share post system
-- Chat system
 - Make blade components (example: post component)
 
