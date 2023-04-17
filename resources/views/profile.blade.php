@@ -9,7 +9,7 @@
                     {{-- User header --}}
                     <div class="flex flex-col w-full">
                         <div class="flex flex-wrap justify-center w-full mb-2">
-                            <img class="w-20 h-20 rounded-full" src="{{ asset('images\placeholder.png') }}" alt="">
+                            <img class="w-20 h-20 rounded-full" src="{{$user->image ? asset('storage'.$user->image) : asset('images/placeholder.png')}}" alt="">
                         </div>
                         <div class="inline-flex items-center justify-center w-full">
                             <h1 class="mr-1 font-bold text-center text-gray-900" x-text="user.first_name && user.last_name ? user?.first_name + ' ' + user?.last_name : user.name"></h1>
@@ -191,7 +191,7 @@
                         <template x-for="follower in user.followers">
                             <div x-show="!isShowingPendingRequests" class="flex justify-between w-full mt-4">
                                 <div class="inline-flex items-center">
-                                    <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="follower.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
+                                    <img loading="lazy" :src="follower.image ? '/storage'+follower.image : '{{ asset('images/placeholder.png')}}'" :alt="follower.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
                                     <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+follower.id)" x-text="follower.name"></h6>
                                 </div>
                                 <button type="button" x-text="Lang.get('strings.remove')" x-show="user_id === user.id" @click.prevent="removeFollower(`${follower.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >
@@ -213,7 +213,7 @@
                         <template x-for="following in user.followings">
                             <div class="flex justify-between w-full mt-4">
                                 <div class="inline-flex items-center">
-                                    <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="following.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
+                                    <img loading="lazy" :src="following.image ? '/storage'+following.image : '{{ asset('images/placeholder.png')}}'" :alt="following.name" class="w-8 h-8 mx-auto mr-2 rounded-full">
                                     <h6 class="text-sm font-bold align-middle hover:cursor-pointer hover:text-gray-500" @click="navigateTo(`/profile/`+following.id)" x-text="following.name"></h6>
                                 </div>
                                 <button type="button" x-text="Lang.get('strings.unfollow')" x-show="user_id === user.id" @click.prevent="toggleFollowUser(`${following.id}`)" class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" > --}}

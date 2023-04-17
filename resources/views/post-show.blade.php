@@ -93,7 +93,7 @@
                         <div class="w-full my-2">
                             <form @submit.prevent="saveCommentData(`${post.id}`)" class="flex items-center px-3 py-2 bg-white rounded-lg dark:bg-gray-700">
                                 <div class="inline-flex w-full overflow-hidden">
-                                    <span class="p-2"><img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="username" class="w-8 h-8 rounded-full"></span>
+                                    <span class="p-2"><img loading="lazy" src="{{Auth::user()->image ? asset('storage'.Auth::user()->image) : asset('images\placeholder.png') }}" :alt="username" class="w-8 h-8 rounded-full"></span>
                                     <input x-model="commentForm.comment" class="w-full border-none placeholder:text-sm placeholder:font-bold placeholder:text-gray-400" :placeholder="Lang.get('strings.write_your_comment')" type="text"></input>
                                     <button type="submit" class="inline-flex items-center justify-center p-2 text-blue-600 cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
                                         <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
@@ -158,7 +158,7 @@
                     <div class="w-full max-w-lg p-6 mt-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div class="inline-flex items-center justify-between w-full">
                             <div class="inline-flex items-center p-2 hover:cursor-pointer" @click="navigateTo('/profile/'+post.author.id)">
-                                <img loading="lazy" src="{{ asset('images\placeholder.png') }}" :alt="post.authorName" class="w-8 h-8 mr-2 rounded-full">
+                                <img loading="lazy" :src="post.author.image ? '/storage'+post.author.image : '{{ asset('images/placeholder.png')}}'" :alt="post.authorName" class="w-8 h-8 mr-2 rounded-full">
                                 <h1 class="text-lg font-bold text-gray-900 hover:opacity-80" x-text="post.authorName"></h1>
                             </div>
                             <button x-show="user_id !== post.author.id" type="button" x-text="authHasFollowedRequestProfileUser ? Lang.get('strings.pending') : (authIsFollowingProfileUser ? Lang.get('strings.unfollow') : Lang.get('strings.follow'))" @click.prevent="toggleFollowUser(`${user.id}`)" class="inline-flex items-center px-6 py-1.5 mt-2 text-xs font-semibold tracking-widest text-black transition duration-150 ease-in-out border-2 border-gray-300 rounded-md hover:bg-gray-200 active:bg-gray-200 focus:outline-none focus:border-gray-500 disabled:opacity-25" >

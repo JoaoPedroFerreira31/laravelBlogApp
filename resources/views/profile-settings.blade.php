@@ -12,7 +12,7 @@
                             <x-fas-arrow-left @click="navigateTo('/profile/'+user_id)" class="w-5 h-5 hover:cursor-pointer hover:opacity-50"/>
                         </div>
                         <div class="flex flex-wrap justify-center w-full mb-2">
-                            <img class="w-20 h-20 rounded-full" src="{{ asset('images\placeholder.png') }}" alt="">
+                            <img class="w-20 h-20 rounded-full" src="{{ $user->image ? asset('storage'.$user->image) : asset('images/placeholder.png') }}" alt="">
                         </div>
                         <div class="inline-flex items-center justify-center w-full">
                             <h1 class="mr-1 font-bold text-center text-gray-900" x-text="user_id === user.id ? Lang.get('strings.welcome')+ ' ' + username : user.name"></h1>
@@ -155,6 +155,33 @@
                                 <label for="floating_description" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">@lang('description')</label>
                             </div>
 
+                            {{-- Image --}}
+                            <div class="relative z-0 w-full mb-6 group">
+                                <div class="flex flex-wrap items-center w-full">
+                                    <div class="flex justify-center w-4/12">
+                                         <!-- Show the image -->
+                                        <template x-if="userImageUrl">
+                                            <img
+                                                :src="userImageUrl"
+                                                class="object-cover border border-gray-200 rounded"
+                                                style="width: 100px; height: 100px;"
+                                            />
+                                        </template>
+
+                                        <!-- Show the gray box when image is not available -->
+                                        <template x-if="!userImageUrl">
+                                            <div
+                                                class="bg-gray-100 border border-gray-200 rounded"
+                                                style="width: 100px; height: 100px;"
+                                            ></div>
+                                        </template>
+                                    </div>
+                                    <div class="flex items-center w-8/12">
+                                        <input type="file" name="image" id="image" accept="image/*" @change="fileImageChosen" />
+                                    </div>
+                                </div>
+                            </div>
+
                             <button type="submit" class="w-full px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">@lang('update')</button>
                         </form>
 
@@ -188,9 +215,13 @@
                 country: null,
                 website: null,
                 company: null,
+                image: null,
             },
             haveErrors: false,
             errors: [],
+            fileToUpload: null,
+            filename: null,
+            userImageUrl: null,
             init() {
                 try {
                     this.user = backendRecord;
@@ -225,6 +256,18 @@
                 });
 
             },
+            fileImageChosen(event) {
+                this.fileChosen(event, src => this.userImageUrl = src)
+            },
+            fileChosen(event, callback) {
+                if (! event.target.files.length) return
+
+                let file = event.target.files[0], reader = new FileReader();
+                this.imageToUpload = file;
+
+                reader.readAsDataURL(file)
+                reader.onload = e => callback(e.target.result)
+            },
             processFormData() {
                 this.userForm.email = this.user.email ?? null;
                 this.userForm.name = this.user.name ?? null;
@@ -250,6 +293,18 @@
                         url: '/api/users/' +this.user.id,
                         data: this.userForm,
                     }).then((response) => {
+                        if(this.imageToUpload){
+                            const data = new FormData();
+                            data.append('image', this.imageToUpload);
+                            axios.post(`/api/upload-user-photo/${response.data.data.id}`, data)
+                            .then((response) => console.log(response.message))
+                            .catch((error) => {
+                                notyf.alert(Lang.get('strings.please_check_the_errors_and_retry'));
+                                this.haveErrors = true;
+                                this.isSaving = false;
+                                this.errors = error.response.data.errors;
+                            });
+                        }
                         notyf.success(Lang.get('strings.user_updated_successfully'));
                         this.isSaving = false;
                         this.fetchData();
