@@ -18,11 +18,16 @@
                     <x-nav-link x-tooltip="ttp_profile" :href="route('profile', Auth::user())" class="hover:opacity-80" :active="request()->routeIs('profile')">
                         <x-fas-user-alt class="w-5 h-5 text-white "/>
                     </x-nav-link>
+                    <x-nav-link x-tooltip="ttp_messages" :href="route('chatify')" class="hover:opacity-80" :active="request()->routeIs('chatify')">
+                        <x-fas-inbox class="w-6 h-6 text-white"/>
+                    </x-nav-link>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+
+                {{-- <x-fas-inbox x-tooltip="ttp_messages" @click="navigateTo('/chatify')" class="w-5 h-5 mr-3 text-white cursor-pointer"/> --}}
 
                 <x-fas-bell class="w-5 h-5 mr-3 text-white hover:opacity-80 hover:cursor-pointer"/>
 
@@ -145,6 +150,7 @@
         return {
             ttp_dashboard: Lang.get('strings.homepage'),
             ttp_profile: Lang.get('strings.profile'),
+            ttp_messages: Lang.get('strings.messages'),
             open: false,
             menuToggle: false,
             init() {
