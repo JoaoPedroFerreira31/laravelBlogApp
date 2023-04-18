@@ -18,4 +18,5 @@ DONE - Chat system
 - Add share post system
 - Make blade components (example: post component)
 - Update chat system
+- separate js files from blade files
 
