@@ -17,4 +17,5 @@ DONE - Chat system
 - Like system
 - Add share post system
 - Make blade components (example: post component)
+- Update chat system
 
