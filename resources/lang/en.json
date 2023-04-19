@@ -61,5 +61,6 @@
     "please_check_the_errors_and_retry": "Please check the errors and retry",
     "delete": "Delete",
     "delete_record": "Delete Record",
-    "image": "Image"
+    "image": "Image",
+    "messages": "Messages"
 }

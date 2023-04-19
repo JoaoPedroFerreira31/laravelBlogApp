@@ -26,8 +26,10 @@
         "@ryangjchandler/alpine-tooltip": "^1.2.0",
         "awesome-notifications": "^3.1.3",
         "browser-sync-webpack-plugin": "^2.3.0",
+        "laravel-echo": "^1.15.0",
         "localforage": "^1.10.0",
         "luxon": "^3.2.1",
+        "pusher-js": "^8.0.2",
         "vue-loader": "^17.0.1",
         "webpack-shell-plugin": "^0.5.0"
     }
