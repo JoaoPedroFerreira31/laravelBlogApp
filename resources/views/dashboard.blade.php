@@ -9,9 +9,9 @@
                     <div class="inline-flex justify-between w-full max-w-lg p-3 mt-2 bg-white rounded-md gap-x-2">
                         <h1 class="text-lg font-bold">@lang('homepage')</h1>
                         <div class="inline-flex gap-2">
-                            <div :class="filterName === 'all_posts' ? 'px-4 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none whitespace-nowrap' : 'px-4 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-400 hover:shadow-none'"  @click.prevent="filter('all_posts')"  x-text="Lang.get('strings.all_posts')"></div>
-                            <div :class="filterName === 'friends_posts' ? 'px-4 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none whitespace-nowrap' : 'px-4 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-400 hover:shadow-none'"  @click.prevent="filter('friends_posts')"  x-text="Lang.get('strings.friends_posts')"></div>
-                            <div :class="filterName === 'user_posts' ? 'px-4 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none whitespace-nowrap' : 'px-4 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-400 hover:shadow-none'"  @click.prevent="filter('user_posts')" x-text="Lang.get('strings.my_posts')"></div>
+                            <div :class="filterName === 'all_posts' ? 'px-2 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none whitespace-nowrap' : 'px-2 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-400 hover:shadow-none'"  @click.prevent="filter('all_posts')"  x-text="Lang.get('strings.all_posts')"></div>
+                            <div :class="filterName === 'friends_posts' ? 'px-2 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none whitespace-nowrap' : 'px-2 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-400 hover:shadow-none'"  @click.prevent="filter('friends_posts')"  x-text="Lang.get('strings.friends_posts')"></div>
+                            <div :class="filterName === 'user_posts' ? 'px-2 py-1 text-xs text-white bg-gray-300 border border-gray-300 rounded-md shadow-lg cursor-pointer hover:bg-gray-400 hover:shadow-none whitespace-nowrap' : 'px-2 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-blue-400 hover:shadow-none'"  @click.prevent="filter('user_posts')" x-text="Lang.get('strings.my_posts')"></div>
                         </div>
                     </div>
                 </div>
@@ -103,10 +103,10 @@
             </section>
 
             {{-- Right section --}}
-            <section class="hidden lg:block overflow-hidden">
+            <section class="hidden overflow-hidden lg:block">
                 {{-- Search --}}
-                <div class="relative w-full pt-2 mx-auto text-gray-600">
-                    <input class="w-full h-10 px-5 pr-16 text-sm bg-white border-none rounded-lg focus:outline-none"
+                <div class="relative w-full pt-2 mx-auto text-gray-600 focus:outline-none">
+                    <input class="w-full h-10 px-5 pr-16 text-sm bg-white border-none rounded-lg outline-none focus:outline-none"
                       type="search" name="search" :placeholder="Lang.get('strings.search')">
                     <button type="submit" class="absolute top-0 right-0 mt-5 mr-4">
                       <svg class="w-4 h-4 text-gray-600 fill-current" xmlns="http://www.w3.org/2000/svg"
